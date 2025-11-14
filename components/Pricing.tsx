@@ -12,7 +12,14 @@ export default function Pricing() {
   const handleDownloadClick = () => {
     trackEvent(ANALYTICS_EVENTS.CTA_DOWNLOAD_CLICK)
     trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { price_suggestion: 3 })
-    window.open('https://gumroad.com/l/unfriction', '_blank')
+    
+    // Create a temporary download link and trigger it
+    const link = document.createElement('a')
+    link.href = '/Unfriction.app.zip'
+    link.download = 'Unfriction.app.zip'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
