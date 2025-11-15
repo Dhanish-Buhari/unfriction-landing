@@ -57,7 +57,7 @@ export default function Hero() {
               })}
             >
               <p className="text-lg text-slate-500 mb-8">
-                Because your thoughts don't wait for Notion to load.
+                Launches in &lt;400ms. Capture thoughts with one shortcut.
               </p>
             </MotionDiv>
 

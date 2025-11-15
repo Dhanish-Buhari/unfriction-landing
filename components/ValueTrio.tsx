@@ -20,13 +20,13 @@ const values = [
 
 export default function ValueTrio() {
   const prefersReducedMotion = useReducedMotion()
+  const MotionDiv = prefersReducedMotion ? 'div' : motion.div
 
   return (
     <section className="py-20 bg-gradient-to-b from-white to-slate-50/30">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-12">
           {values.map((value, index) => {
-            const MotionDiv = prefersReducedMotion ? 'div' : motion.div
             
             return (
               <MotionDiv
@@ -55,6 +55,25 @@ export default function ValueTrio() {
             )
           })}
         </div>
+        
+        {/* Subtle premium hook */}
+        <MotionDiv
+          {...(!prefersReducedMotion && {
+            initial: { opacity: 0, y: 10 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: '-50px' },
+            transition: {
+              duration: 0.6,
+              ease: 'easeOut',
+              delay: 0.3,
+            },
+          })}
+          className="text-center mt-16"
+        >
+          <p className="text-sm text-slate-400 font-light italic">
+            Because your thoughts don't wait for slow apps to load.
+          </p>
+        </MotionDiv>
       </div>
     </section>
   )
