@@ -11,7 +11,7 @@ export default function Pricing() {
 
   const handleDownloadClick = () => {
     trackEvent(ANALYTICS_EVENTS.CTA_DOWNLOAD_CLICK)
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { price_suggestion: 3 })
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { early_user: true })
     
     // Create a temporary download link and trigger it
     const link = document.createElement('a')
@@ -35,10 +35,10 @@ export default function Pricing() {
           className="text-center mb-8"
         >
           <h2 className="text-4xl font-bold mb-4">
-            Simple pricing. You choose the amount.
+            Free for early users.
           </h2>
           <p className="text-lg text-slate-600 mb-8">
-            Pay-what-you-want. Suggested <strong>$3</strong>. One-time. Works on macOS Ventura & Sonoma.
+            No credit card. No payment. Just download and enjoy. Works on macOS Ventura & Sonoma.
           </p>
 
           <button

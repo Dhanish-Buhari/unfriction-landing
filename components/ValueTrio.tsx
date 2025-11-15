@@ -6,7 +6,7 @@ import { useReducedMotion } from '@/lib/useReducedMotion'
 const values = [
   {
     title: 'Instant Launch',
-    description: 'Opens in under 400ms.',
+    description: 'Opens in under 400ms, every time.',
   },
   {
     title: 'Global Shortcut',

@@ -11,7 +11,7 @@ export default function Hero() {
 
   const handleDownloadClick = () => {
     trackEvent(ANALYTICS_EVENTS.CTA_DOWNLOAD_CLICK)
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { price_suggestion: 3 })
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { early_user: true })
     
     // Create a temporary download link and trigger it
     const link = document.createElement('a')
@@ -57,7 +57,7 @@ export default function Hero() {
               })}
             >
               <p className="text-lg text-slate-500 mb-8">
-                Launches in &lt;400ms. Capture thoughts with one shortcut.
+                Because your thoughts don't wait for Notion to load.
               </p>
             </MotionDiv>
 
@@ -73,7 +73,7 @@ export default function Hero() {
                 onClick={handleDownloadClick}
                 className="btn-primary"
               >
-                Download — Pay What You Want
+                Download Free — Early User
               </button>
               <button 
                 onClick={handleDemoClick}
@@ -91,7 +91,7 @@ export default function Hero() {
               })}
             >
               <p className="text-sm text-slate-500">
-                Suggested $3 · One-time · Notarized DMG
+                No credit card · No payment · Free for early users · Notarized DMG
               </p>
             </MotionDiv>
           </div>

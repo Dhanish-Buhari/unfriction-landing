@@ -18,7 +18,7 @@ export default function MobileStickyCTA() {
 
   const handleClick = () => {
     trackEvent(ANALYTICS_EVENTS.CTA_DOWNLOAD_CLICK)
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { price_suggestion: 3 })
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { early_user: true })
     
     // Create a temporary download link and trigger it
     const link = document.createElement('a')
@@ -40,7 +40,7 @@ export default function MobileStickyCTA() {
         onClick={handleClick}
         className="w-full btn-primary justify-center text-center min-h-[44px]"
       >
-        Download — Pay What You Want
+        Download Free — Early User
       </button>
     </div>
   )
