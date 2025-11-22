@@ -22,8 +22,8 @@ export default function MobileStickyCTA() {
     
     // Create a temporary download link and trigger it
     const link = document.createElement('a')
-    link.href = '/Unfriction.app.zip'
-    link.download = 'Unfriction.app.zip'
+    link.href = '/Unfriction.dmg'
+    link.download = 'Unfriction.dmg'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)

@@ -62,21 +62,21 @@ export default function FeaturesGrid() {
                     damping: 20,
                   },
                 })}
-                className="glass-card hover:shadow-md transition-shadow p-5"
+                className="glass-card hover:shadow-md transition-shadow"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 pt-1">
+                  <div className="flex-shrink-0">
                     <Image 
                       src="/app-icon.png" 
                       alt={feature.title}
-                      width={56}
-                      height={56}
-                      className="w-14 h-14"
+                      width={64}
+                      height={64}
+                      className="w-16 h-16"
                     />
                   </div>
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1">
                     <h3 className="text-lg font-semibold mb-2 text-slate-900">{feature.title}</h3>
-                    <p className="text-slate-600 leading-relaxed">{feature.description}</p>
+                    <p className="text-slate-600">{feature.description}</p>
                   </div>
                 </div>
               </MotionDiv>

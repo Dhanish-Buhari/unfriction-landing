@@ -8,15 +8,15 @@ export default function Nav() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
           <Image 
-            src="/logo-unfriction.svg" 
+            src="/app-icon.png" 
             alt="Unfriction" 
-            width={32} 
-            height={32}
-            className="w-8 h-8"
+            width={56} 
+            height={56}
+            className="w-14 h-14 transition-transform group-hover:scale-105"
           />
-          <span className="font-semibold text-lg">Unfriction</span>
+          <span className="font-semibold text-xl text-slate-900">Unfriction</span>
         </Link>
 
         {/* Right Links */}

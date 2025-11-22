@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
+import Image from 'next/image'
 
 const values = [
   {
@@ -43,11 +44,15 @@ export default function ValueTrio() {
                 })}
                 className="text-center"
               >
-                {/* Glass dot icon */}
-                <div className="flex justify-center mb-5">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-teal-500/30 to-teal-500/10 flex items-center justify-center backdrop-blur-sm border border-teal-500/20">
-                    <div className="w-6 h-6 rounded-full bg-teal-500 shadow-lg" />
-                  </div>
+                {/* Icon with app icon */}
+                <div className="flex justify-center mb-6">
+                  <Image 
+                    src="/app-icon.png" 
+                    alt={value.title}
+                    width={80}
+                    height={80}
+                    className="w-20 h-20"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-slate-900">{value.title}</h3>
                 <p className="text-slate-600 leading-relaxed">{value.description}</p>
