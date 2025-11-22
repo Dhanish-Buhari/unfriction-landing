@@ -12,6 +12,7 @@ import Pricing from '@/components/Pricing'
 import EmailCapture from '@/components/EmailCapture'
 import Footer from '@/components/Footer'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
+import AnalyticsTracker from '@/components/AnalyticsTracker'
 
 export default function Home() {
   useEffect(() => {
@@ -31,14 +32,21 @@ export default function Home() {
 
   return (
     <>
+      <AnalyticsTracker />
       <Nav />
       <main className="min-h-screen">
         <Hero />
         <ValueTrio />
-        <FeaturesGrid />
-        <Demo />
+        <div id="features">
+          <FeaturesGrid />
+        </div>
+        <div id="demo">
+          <Demo />
+        </div>
         <Testimonial />
-        <Pricing />
+        <div id="pricing">
+          <Pricing />
+        </div>
         <EmailCapture />
         <Footer />
       </main>

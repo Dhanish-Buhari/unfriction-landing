@@ -145,25 +145,43 @@ All animations respect `prefers-reduced-motion`. To disable:
 
 ## 📊 Analytics
 
-The site includes event tracking for:
-- `landing_loaded` — Page view
-- `cta_download_click` — Download button clicked
-- `cta_demo_click` — Demo video clicked
-- `download_initiated` — Redirected to Gumroad
-- `email_signup` — Newsletter subscription
+Comprehensive analytics tracking for all key metrics:
+
+### Automatic Metrics (Plausible/Fathom)
+- Page views, unique visitors, bounce rate
+- Average session duration, traffic sources
+- Device/browser breakdown, geographic data
+
+### Custom Event Tracking
+- **Downloads** — Every download button click
+- **Demo clicks** — "Watch demo" button interactions
+- **Email signups** — Newsletter subscriptions
+- **Section views** — Hero, Features, Demo, Pricing engagement
+- **Scroll depth** — 25%, 50%, 75%, 100% (conversion funnel drop-off)
+- **Time on page** — Engagement at 30s, 60s, 120s, 300s
+- **Exit intent** — When users try to leave without converting (churn indicator)
 
 ### Setup Analytics
 
 **Plausible** (recommended):
-Add to `app/layout.tsx` in `<head>`:
-```tsx
-<script defer data-domain="yourdomain.com" src="https://plausible.io/js/script.js"></script>
-```
+1. Sign up at [plausible.io](https://plausible.io)
+2. Add your domain
+3. Create `.env.local` file:
+   ```bash
+   NEXT_PUBLIC_PLAUSIBLE_DOMAIN=unfriction.app
+   ```
+4. Deploy - Analytics automatically starts tracking
 
 **Fathom**:
-```tsx
-<script src="https://cdn.usefathom.com/script.js" data-site="YOUR_SITE_ID" defer></script>
-```
+1. Sign up at [usefathom.com](https://usefathom.com)
+2. Get your Site ID
+3. Create `.env.local` file:
+   ```bash
+   NEXT_PUBLIC_FATHOM_SITE_ID=YOUR_SITE_ID
+   ```
+4. Deploy - Analytics automatically starts tracking
+
+**See `ANALYTICS_SETUP.md` for detailed setup and metrics explanation.**
 
 ## 🌐 Deployment to Vercel
 
