@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Analytics from '@/components/Analytics'
+import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
   title: 'Unfriction — Instant notes. Zero friction.',
@@ -57,6 +58,7 @@ export default function RootLayout({
       </head>
       <body>
         <Analytics />
+        <VercelAnalytics />
         {children}
       </body>
     </html>

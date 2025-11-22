@@ -76,7 +76,7 @@ export default function ValueTrio() {
           className="text-center mt-16"
         >
           <p className="text-sm text-slate-400 font-light italic">
-            Because your thoughts don't wait for slow apps to load.
+            Because your thoughts don&apos;t wait for slow apps to load.
           </p>
         </MotionDiv>
       </div>
