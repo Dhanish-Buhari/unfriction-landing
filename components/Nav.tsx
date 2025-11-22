@@ -12,9 +12,9 @@ export default function Nav() {
           <Image 
             src="/app-icon.png" 
             alt="Unfriction" 
-            width={56} 
-            height={56}
-            className="w-14 h-14 transition-transform group-hover:scale-105"
+            width={32} 
+            height={32}
+            className="w-8 h-8 transition-transform group-hover:scale-105"
           />
           <span className="font-semibold text-xl text-slate-900">Unfriction</span>
         </Link>
