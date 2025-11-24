@@ -32,9 +32,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Preload hero video for faster loading */}
-        <link rel="preload" as="video" href="/media/hero-demo.mp4" />
-        
         {/* Structured data for SEO */}
         <script
           type="application/ld+json"

@@ -3,11 +3,9 @@
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
-import { useState } from 'react'
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion()
-  const [videoError, setVideoError] = useState(false)
 
   const handleDownloadClick = () => {
     trackEvent(ANALYTICS_EVENTS.CTA_DOWNLOAD_CLICK)
@@ -96,7 +94,7 @@ export default function Hero() {
             </MotionDiv>
           </div>
 
-          {/* RIGHT COLUMN - VIDEO */}
+          {/* RIGHT COLUMN - IMAGE */}
           <MotionDiv
             {...(!prefersReducedMotion && {
               initial: { scale: 0.99, opacity: 0 },
@@ -106,30 +104,12 @@ export default function Hero() {
             className="relative"
           >
             <div className="rounded-2xl shadow-2xl overflow-hidden border border-slate-200/50 bg-gradient-to-br from-slate-50 to-slate-100">
-              {!videoError ? (
-                <video
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full h-auto"
-                  onError={() => setVideoError(true)}
-                >
-                  <source src="/media/hero-demo.mp4" type="video/mp4" />
-                </video>
-              ) : (
-                <div className="aspect-[1080/640] flex items-center justify-center p-8">
-                  <div className="text-center">
-                    <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-teal-500/10 flex items-center justify-center">
-                      <svg className="w-8 h-8 text-teal-500/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <p className="text-slate-400 text-sm font-medium mb-2">Add hero-demo.mp4 to /public/media/</p>
-                    <p className="text-slate-300 text-xs">5-7s loop, 1080x640, muted, ~1MB</p>
-                  </div>
-                </div>
-              )}
+              <img
+                src="/media/hero-screenshot.png"
+                alt="Unfriction app screenshot"
+                className="w-full h-auto"
+                loading="eager"
+              />
             </div>
           </MotionDiv>
         </div>

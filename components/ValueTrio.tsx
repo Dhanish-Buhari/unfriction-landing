@@ -2,20 +2,29 @@
 
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
-import Image from 'next/image'
+import { Zap, Keyboard, CloudCheck } from 'lucide-react'
 
 const values = [
   {
     title: 'Instant Launch',
     description: 'Opens in under 400ms, every time.',
+    icon: Zap,
+    color: 'text-teal-500',
+    bgColor: 'bg-teal-50',
   },
   {
     title: 'Global Shortcut',
     description: 'Access from any app with Ctrl + Option + N.',
+    icon: Keyboard,
+    color: 'text-teal-500',
+    bgColor: 'bg-teal-50',
   },
   {
     title: 'Auto Save',
     description: 'Notes persist instantly, always.',
+    icon: CloudCheck,
+    color: 'text-teal-500',
+    bgColor: 'bg-teal-50',
   },
 ]
 
@@ -28,7 +37,7 @@ export default function ValueTrio() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-12">
           {values.map((value, index) => {
-            
+            const IconComponent = value.icon
             return (
               <MotionDiv
                 key={value.title}
@@ -44,15 +53,11 @@ export default function ValueTrio() {
                 })}
                 className="text-center"
               >
-                {/* Icon with app icon */}
+                {/* Icon */}
                 <div className="flex justify-center mb-6">
-                  <Image 
-                    src="/app-icon.png" 
-                    alt={value.title}
-                    width={80}
-                    height={80}
-                    className="w-20 h-20"
-                  />
+                  <div className={`${value.bgColor} ${value.color} rounded-2xl p-4 w-20 h-20 flex items-center justify-center shadow-sm`}>
+                    <IconComponent className="w-10 h-10" strokeWidth={2} />
+                  </div>
                 </div>
                 <h3 className="text-xl font-semibold mb-2 text-slate-900">{value.title}</h3>
                 <p className="text-slate-600 leading-relaxed">{value.description}</p>

@@ -9,6 +9,7 @@ import FeaturesGrid from '@/components/FeaturesGrid'
 import Demo from '@/components/Demo'
 import Testimonial from '@/components/Testimonial'
 import Pricing from '@/components/Pricing'
+import FAQ from '@/components/FAQ'
 import EmailCapture from '@/components/EmailCapture'
 import Footer from '@/components/Footer'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
@@ -47,6 +48,7 @@ export default function Home() {
         <div id="pricing">
           <Pricing />
         </div>
+        <FAQ />
         <EmailCapture />
         <Footer />
       </main>

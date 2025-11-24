@@ -174,3 +174,5 @@ All custom events tracked:
 Once you've set up your analytics provider and deployed, you'll start seeing data within minutes. Check your dashboard to see real-time metrics and optimize your landing page based on actual user behavior!
 
 
+
+
