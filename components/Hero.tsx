@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
 
@@ -104,11 +105,13 @@ export default function Hero() {
             className="relative"
           >
             <div className="rounded-2xl shadow-2xl overflow-hidden border border-slate-200/50 bg-gradient-to-br from-slate-50 to-slate-100">
-              <img
+              <Image
                 src="/media/hero-screenshot.png"
                 alt="Unfriction app screenshot"
+                width={1200}
+                height={800}
                 className="w-full h-auto"
-                loading="eager"
+                priority
               />
             </div>
           </MotionDiv>

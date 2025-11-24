@@ -94,7 +94,7 @@ export default function FAQ() {
                       id={`faq-answer-${index}`}
                       initial={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
                       animate={prefersReducedMotion ? false : { height: 'auto', opacity: 1 }}
-                      exit={prefersReducedMotion ? false : { height: 0, opacity: 0 }}
+                      exit={prefersReducedMotion ? undefined : { height: 0, opacity: 0 }}
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="overflow-hidden"
                     >
