@@ -54,7 +54,8 @@ export default function Demo() {
               className="w-full h-full object-cover"
               onError={() => setVideoError(true)}
             >
-              <source src="/media/demo-quick.mp4" type="video/mp4" />
+              <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
+              <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
             </video>
           ) : (
             <>
@@ -70,7 +71,7 @@ export default function Demo() {
                   </svg>
                 </div>
                 <p className="text-slate-500 font-medium mb-1">Click to play demo</p>
-                <p className="text-slate-400 text-sm">Add demo-quick.mp4 to /public/media/</p>
+                <p className="text-slate-400 text-sm">Video loading...</p>
               </div>
             </>
           )}
@@ -134,9 +135,11 @@ export default function Demo() {
                   loop
                   muted
                   playsInline
+                  controls
                   className="w-full h-full"
                 >
-                  <source src="/media/demo-quick.mp4" type="video/mp4" />
+                  <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
+                  <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
                 </video>
               </div>
               <button
