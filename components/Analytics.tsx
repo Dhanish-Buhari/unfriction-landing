@@ -2,22 +2,32 @@
 
 import Script from 'next/script'
 
+const CUSTOM_PLAUSIBLE_SRC =
+  process.env.NEXT_PUBLIC_PLAUSIBLE_CUSTOM_SRC ||
+  'https://plausible.io/js/pa-43myj-SNNx4hfvsNZWNWd.js'
+
 export default function Analytics() {
-  // Support both Plausible and Fathom via environment variables
-  const plausibleDomain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN
   const fathomSiteId = process.env.NEXT_PUBLIC_FATHOM_SITE_ID
 
   return (
     <>
       {/* Plausible Analytics */}
-      {plausibleDomain && (
-        <Script
-          defer
-          data-domain={plausibleDomain}
-          src="https://plausible.io/js/script.js"
-          strategy="afterInteractive"
-        />
-      )}
+      <Script src={CUSTOM_PLAUSIBLE_SRC} strategy="afterInteractive" async />
+      <Script
+        id="plausible-inline-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.plausible = window.plausible || function () {
+              (plausible.q = plausible.q || []).push(arguments)
+            }
+            plausible.init = plausible.init || function (config) {
+              plausible.o = config || {}
+            }
+            plausible.init()
+          `,
+        }}
+      />
 
       {/* Fathom Analytics */}
       {fathomSiteId && (
