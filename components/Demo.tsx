@@ -115,6 +115,28 @@ export default function Demo() {
               </div>
             </>
           )}
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 text-white transition-opacity duration-200 group-hover:opacity-0">
+            <div className="relative">
+              <div className="absolute inset-0 rounded-full bg-black/40 blur-xl" />
+              <div className="relative w-20 h-20 rounded-full bg-white/15 border border-white/30 flex items-center justify-center backdrop-blur">
+                <svg
+                  className="w-8 h-8"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <polygon points="9.5 7 17 12 9.5 17" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+            <span className="uppercase tracking-[0.4em] text-xs text-white/80">
+              Play Demo
+            </span>
+          </div>
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-70 group-hover:opacity-30 transition-opacity" />
         </div>
 
         {/* Screenshot Thumbnails */}
