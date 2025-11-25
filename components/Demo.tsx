@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
@@ -23,9 +23,49 @@ export default function Demo() {
     trackEvent(ANALYTICS_EVENTS.CTA_DEMO_CLICK)
   }
 
+  const closeLightbox = () => {
+    setLightboxOpen(false)
+  }
+
   const openImageModal = (imageId: string) => {
     setSelectedImage(imageId)
   }
+
+  const closeImageModal = () => {
+    setSelectedImage(null)
+  }
+
+  // Handle ESC key to close modals
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (lightboxOpen) {
+          closeLightbox()
+        }
+        if (selectedImage) {
+          closeImageModal()
+        }
+      }
+    }
+
+    // Also listen to the global closeLightbox event
+    const handleCloseEvent = () => {
+      if (lightboxOpen) {
+        closeLightbox()
+      }
+      if (selectedImage) {
+        closeImageModal()
+      }
+    }
+
+    window.addEventListener('keydown', handleEsc)
+    window.addEventListener('closeLightbox', handleCloseEvent)
+    
+    return () => {
+      window.removeEventListener('keydown', handleEsc)
+      window.removeEventListener('closeLightbox', handleCloseEvent)
+    }
+  }, [lightboxOpen, selectedImage])
 
   return (
     <section id="demo" className="py-20 bg-slate-50 border-t border-slate-100">
@@ -49,7 +89,6 @@ export default function Demo() {
             <video
               autoPlay
               loop
-              muted
               playsInline
               className="w-full h-full object-cover"
               onError={() => setVideoError(true)}
@@ -120,7 +159,7 @@ export default function Demo() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            onClick={() => setLightboxOpen(false)}
+            onClick={closeLightbox}
           >
             <motion.div
               initial={{ scale: 0.9 }}
@@ -133,7 +172,6 @@ export default function Demo() {
                 <video
                   autoPlay
                   loop
-                  muted
                   playsInline
                   controls
                   className="w-full h-full"
@@ -143,7 +181,7 @@ export default function Demo() {
                 </video>
               </div>
               <button
-                onClick={() => setLightboxOpen(false)}
+                onClick={closeLightbox}
                 className="mt-4 mx-auto block text-white/80 hover:text-white text-sm"
               >
                 Close (ESC)
@@ -161,7 +199,7 @@ export default function Demo() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedImage(null)}
+            onClick={closeImageModal}
           >
             <motion.div
               initial={{ scale: 0.9 }}
@@ -176,7 +214,7 @@ export default function Demo() {
                 </div>
               </div>
               <button
-                onClick={() => setSelectedImage(null)}
+                onClick={closeImageModal}
                 className="mt-4 mx-auto block text-white/80 hover:text-white text-sm"
               >
                 Close (ESC)
