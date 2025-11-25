@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
@@ -17,14 +17,24 @@ export default function Demo() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
   const [videoError, setVideoError] = useState(false)
   const prefersReducedMotion = useReducedMotion()
+  const backgroundVideoRef = useRef<HTMLVideoElement>(null)
+  const modalVideoRef = useRef<HTMLVideoElement>(null)
   const selectedScreenshot = screenshots.find((item) => item.id === selectedImage)
 
   const openLightbox = () => {
+    // Ensure background video is paused
+    if (backgroundVideoRef.current) {
+      backgroundVideoRef.current.pause()
+    }
     setLightboxOpen(true)
     trackEvent(ANALYTICS_EVENTS.CTA_DEMO_CLICK)
   }
 
   const closeLightbox = () => {
+    // Pause modal video when closing
+    if (modalVideoRef.current) {
+      modalVideoRef.current.pause()
+    }
     setLightboxOpen(false)
   }
 
@@ -35,6 +45,15 @@ export default function Demo() {
   const closeImageModal = () => {
     setSelectedImage(null)
   }
+
+  // Ensure background video never autoplays
+  useEffect(() => {
+    if (backgroundVideoRef.current) {
+      backgroundVideoRef.current.pause()
+      // Prevent any autoplay attempts
+      backgroundVideoRef.current.autoplay = false
+    }
+  }, [])
 
   // Handle ESC key to close modals
   useEffect(() => {
@@ -88,11 +107,19 @@ export default function Demo() {
         >
           {!videoError ? (
             <video
-              autoPlay
+              ref={backgroundVideoRef}
               loop
               playsInline
-              className="w-full h-full object-cover"
+              muted
+              preload="metadata"
+              className="w-full h-full object-cover pointer-events-none"
               onError={() => setVideoError(true)}
+              onPlay={(e) => {
+                // Prevent background video from playing - only allow in modal
+                if (!lightboxOpen) {
+                  e.currentTarget.pause()
+                }
+              }}
             >
               <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
               <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
@@ -194,6 +221,7 @@ export default function Demo() {
             >
               <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden">
                 <video
+                  ref={modalVideoRef}
                   autoPlay
                   loop
                   playsInline
