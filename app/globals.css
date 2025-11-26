@@ -20,12 +20,16 @@
 @layer components {
   /* Button Primary */
   .btn-primary {
-    @apply inline-flex items-center gap-3 px-6 py-3 rounded-full bg-teal-500 hover:bg-teal-600 text-white font-medium shadow-sm transition-all;
+    @apply inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-bold shadow-sm transition-all;
+    height: 48px;
+    border-radius: 12px;
   }
 
   /* Button Ghost */
   .btn-ghost {
-    @apply border border-slate-200 px-4 py-3 rounded-md text-slate-700 hover:bg-slate-50 transition-colors;
+    @apply border border-slate-200 px-4 py-3 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors font-semibold;
+    height: 48px;
+    border-radius: 12px;
   }
 
   /* Glass Card */
@@ -45,6 +49,15 @@
     background: rgba(255, 255, 255, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 
   /* Reduced motion preferences */

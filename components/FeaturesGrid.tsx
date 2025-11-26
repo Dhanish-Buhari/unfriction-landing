@@ -2,32 +2,50 @@
 
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
-import Image from 'next/image'
+import { Zap, Layers, Image as ImageIcon, Lock, HardDrive, Minus } from 'lucide-react'
 
 const features = [
   {
-    title: 'Minimal glassy UI',
-    description: 'Mac-native, no extra chrome.',
+    title: 'Instant launch',
+    description: 'Opens in under 400ms with a global shortcut.',
+    icon: Zap,
+    color: 'text-amber-500',
+    bgColor: 'bg-amber-50',
   },
   {
-    title: 'Stupid fast',
-    description: 'Under 400ms launch, every time.',
+    title: 'Overlay notes',
+    description: 'Sits on top of whatever you\'re doing.',
+    icon: Layers,
+    color: 'text-blue-500',
+    bgColor: 'bg-blue-50',
   },
   {
-    title: 'Persistent notes',
-    description: 'Type and forget. Saves automatically.',
+    title: 'Screenshot OCR',
+    description: 'Extract text from screenshots instantly.',
+    icon: ImageIcon,
+    color: 'text-purple-500',
+    bgColor: 'bg-purple-50',
   },
   {
-    title: 'Secure & private',
-    description: 'Local-first; no cloud by default.',
+    title: 'Lock-aware',
+    description: 'Pauses on lock, restores after unlock.',
+    icon: Lock,
+    color: 'text-green-500',
+    bgColor: 'bg-green-50',
   },
   {
-    title: 'System aware',
-    description: 'Pauses on lock, restores after restart.',
+    title: 'Local-first',
+    description: 'No cloud, no account by default.',
+    icon: HardDrive,
+    color: 'text-teal-500',
+    bgColor: 'bg-teal-50',
   },
   {
-    title: 'Zero distractions',
-    description: 'No formatting, no bloat.',
+    title: 'Zero clutter',
+    description: 'No formatting toolbar, just a blank surface.',
+    icon: Minus,
+    color: 'text-slate-500',
+    bgColor: 'bg-slate-50',
   },
 ]
 
@@ -35,49 +53,57 @@ export default function FeaturesGrid() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section className="py-20 bg-white border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-4xl font-bold text-center mb-16">
-          A writing surface that stays out of your way
-        </h2>
+    <section className="py-16 md:py-24 bg-white">
+      <div className="max-w-6xl mx-auto px-6">
+        <motion.div
+          {...(!prefersReducedMotion && {
+            initial: { opacity: 0, y: 20 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true },
+            transition: { duration: 0.5 },
+          })}
+          className="text-center mb-16"
+        >
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 tracking-tight">
+            A writing surface that stays out of your way
+          </h2>
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+            Built for speed, designed for focus, engineered for simplicity
+          </p>
+        </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => {
             const MotionDiv = prefersReducedMotion ? 'div' : motion.div
+            const IconComponent = feature.icon
             
             return (
               <MotionDiv
                 key={feature.title}
                 {...(!prefersReducedMotion && {
-                  initial: { y: 20, opacity: 0 },
-                  whileInView: { y: 0, opacity: 1 },
-                  whileHover: { y: -6, scale: 1.02 },
+                  initial: { opacity: 0, y: 12 },
+                  whileInView: { opacity: 1, y: 0 },
+                  whileHover: { y: -4, scale: 1.02 },
                   viewport: { once: true, margin: '-50px' },
-                  transition: {
-                    duration: 0.3,
-                    ease: 'easeOut',
-                    delay: index * 0.05,
+                  transition: { 
+                    duration: 0.4, 
+                    delay: index * 0.08,
                     type: 'spring',
-                    stiffness: 250,
+                    stiffness: 200,
                     damping: 20,
                   },
                 })}
-                className="glass-card hover:shadow-md transition-shadow p-5"
               >
-                <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 pt-1">
-                    <Image 
-                      src="/app-icon.png" 
-                      alt={feature.title}
-                      width={56}
-                      height={56}
-                      className="w-14 h-14"
-                    />
+                <div className="h-full p-6 rounded-xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-lg transition-all duration-300">
+                  <div className={`w-12 h-12 rounded-xl ${feature.bgColor} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                    <IconComponent className={`w-6 h-6 ${feature.color}`} strokeWidth={2} />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-semibold mb-2 text-slate-900">{feature.title}</h3>
-                    <p className="text-slate-600 leading-relaxed">{feature.description}</p>
-                  </div>
+                  <h3 className="text-lg font-semibold mb-2 text-slate-900">
+                    {feature.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed text-sm">
+                    {feature.description}
+                  </p>
                 </div>
               </MotionDiv>
             )
@@ -87,6 +113,3 @@ export default function FeaturesGrid() {
     </section>
   )
 }
-
-
-

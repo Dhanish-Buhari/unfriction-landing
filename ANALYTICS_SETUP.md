@@ -14,7 +14,11 @@ This landing page includes comprehensive analytics tracking for all your key met
 - **Geographic Data** - Where your visitors are located (country-level)
 
 ### Custom Event Tracking
-- **Downloads** - Every download button click (`download_initiated`)
+- **Downloads** - All download buttons tracked with location context:
+  - `Download Click - Hero` (hero section primary CTA)
+  - `Download Click - Pricing` (pricing section)
+  - `Download Click - Mobile CTA` (sticky mobile button)
+  - `download_initiated` (general download event with source tracking)
 - **Demo Clicks** - When users click "Watch demo" (`cta_demo_click`)
 - **Email Signups** - Newsletter subscriptions (`email_signup`)
 - **Section Views** - When users scroll to Hero, Features, Demo, Pricing sections
@@ -28,12 +32,20 @@ This landing page includes comprehensive analytics tracking for all your key met
 
 1. **Sign up** at [plausible.io](https://plausible.io)
 2. **Add your domain** (e.g., `unfriction.app`)
-3. **Set environment variable:**
+3. **Get your script URL:**
+   - Go to Settings → Integrations → Script
+   - Copy your custom script URL (e.g., `https://plausible.io/js/pa-xxxxx.js`)
+4. **Set environment variable:**
    ```bash
    # Create .env.local file
+   NEXT_PUBLIC_PLAUSIBLE_CUSTOM_SRC=https://plausible.io/js/pa-xxxxx.js
+   ```
+   OR use standard script with domain:
+   ```bash
+   NEXT_PUBLIC_PLAUSIBLE_USE_STANDARD=true
    NEXT_PUBLIC_PLAUSIBLE_DOMAIN=unfriction.app
    ```
-4. **Deploy** - Analytics will automatically start tracking
+5. **Deploy** - Analytics will automatically start tracking all download buttons
 
 **Why Plausible?**
 - Privacy-friendly (GDPR compliant, no cookies)
@@ -160,8 +172,10 @@ All custom events tracked:
   
   // Actions
   cta_demo_click: 'Demo button clicked',
-  cta_download_click: 'Download button clicked',
-  download_initiated: { early_user: true },
+  'Download Click - Hero': { location: 'hero', button_type: 'primary', early_user: true },
+  'Download Click - Pricing': { location: 'pricing', plan: 'free', early_user: true },
+  'Download Click - Mobile CTA': { location: 'mobile_sticky', button_type: 'sticky_cta', early_user: true },
+  download_initiated: { source: 'hero' | 'pricing' | 'mobile_sticky', early_user: true },
   email_signup: { email: 'user@example.com' },
   
   // Churn indicators
