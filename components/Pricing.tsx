@@ -3,28 +3,40 @@
 import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
-import Image from 'next/image'
 
 export default function Pricing() {
   const prefersReducedMotion = useReducedMotion()
-  const MotionDiv = prefersReducedMotion ? 'div' : motion.div
 
   const handleDownloadClick = () => {
-    trackEvent(ANALYTICS_EVENTS.CTA_DOWNLOAD_CLICK)
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, { early_user: true })
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_PRICING, {
+      location: 'pricing',
+      plan: 'free',
+      early_user: true,
+    })
     
-    // Create a temporary download link and trigger it
-    const link = document.createElement('a')
-    link.href = '/Unfriction.dmg'
-    link.download = 'Unfriction.dmg'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, {
+      source: 'pricing',
+      early_user: true,
+    })
+    
+    try {
+      const link = document.createElement('a')
+      link.href = '/Unfriction.dmg'
+      link.download = 'Unfriction.dmg'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } catch (error) {
+      console.error('Download failed:', error)
+      window.open('/Unfriction.dmg', '_blank')
+    }
   }
 
+  const MotionDiv = prefersReducedMotion ? 'div' : motion.div
+
   return (
-    <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
-      <div className="max-w-4xl mx-auto px-6">
+    <section id="pricing" className="py-16 md:py-24 bg-white">
+      <div className="max-w-5xl mx-auto px-6">
         <MotionDiv
           {...(!prefersReducedMotion && {
             initial: { opacity: 0, y: 20 },
@@ -32,61 +44,99 @@ export default function Pricing() {
             viewport: { once: true },
             transition: { duration: 0.5 },
           })}
-          className="text-center mb-8"
+          className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold mb-4">
-            Free for early users.
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900">
+            Free for early users —  Pro coming soon
           </h2>
-          <p className="text-lg text-slate-600 mb-8">
-            No credit card. No payment. Just download and enjoy. Works on macOS Ventura & Sonoma.
-          </p>
-
-          <button
-            onClick={handleDownloadClick}
-            className="btn-primary text-lg px-8 py-4 mb-4"
-          >
-            Download Unfriction
-          </button>
-
-          <p className="text-sm text-slate-500 mb-8">
-            Business / Team licensing →{' '}
-            <a href="mailto:sales@unfriction.app" className="text-teal-500 hover:text-teal-600">
-              sales@unfriction.app
-            </a>
-          </p>
         </MotionDiv>
 
-        {/* Notarization Badge & Trust Row */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* Free Plan */}
+          <MotionDiv
+            {...(!prefersReducedMotion && {
+              initial: { opacity: 0, x: -20 },
+              whileInView: { opacity: 1, x: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.5, delay: 0.2 },
+            })}
+            className="p-8 border-2 border-slate-200 rounded-xl bg-white"
+          >
+            <h3 className="text-2xl font-bold mb-2 text-slate-900">
+              Free — Early access
+            </h3>
+            <ul className="space-y-3 mb-8 mt-6">
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-slate-700">Unlimited notes</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-slate-700">Unlimited OCR &ldquo;for now&rdquo;</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <svg className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                <span className="text-slate-700">No credit card</span>
+              </li>
+            </ul>
+            <div>
+              <button
+                onClick={handleDownloadClick}
+                className="w-full px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+              >
+                Download Free
+              </button>
+              <p className="text-xs text-slate-500 text-center mt-3">
+                Early adopters are grandfathered.
+              </p>
+            </div>
+          </MotionDiv>
+
+          {/* Pro Plan */}
+          <MotionDiv
+            {...(!prefersReducedMotion && {
+              initial: { opacity: 0, x: 20 },
+              whileInView: { opacity: 1, x: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.5, delay: 0.3 },
+            })}
+            className="p-8 border-2 border-slate-200 rounded-xl bg-slate-50"
+          >
+            <h3 className="text-2xl font-bold mb-2 text-slate-900">
+              Unfriction Pro — Coming soon
+            </h3>
+            <p className="text-slate-600 mb-6 text-sm">
+              Pro will add iCloud sync, priority support, and team features. Early users will get a discount and keep unlimited OCR.
+            </p>
+            <button
+              disabled
+              className="w-full px-6 py-3 bg-slate-200 text-slate-400 font-semibold rounded-xl cursor-not-allowed"
+            >
+              Pro plan coming soon
+            </button>
+          </MotionDiv>
+        </div>
+
         <MotionDiv
           {...(!prefersReducedMotion && {
-            initial: { opacity: 0, y: 20 },
-            whileInView: { opacity: 1, y: 0 },
+            initial: { opacity: 0 },
+            whileInView: { opacity: 1 },
             viewport: { once: true },
-            transition: { duration: 0.5, delay: 0.2 },
+            transition: { duration: 0.5, delay: 0.4 },
           })}
-          className="flex flex-col md:flex-row items-center justify-center gap-8 pt-8 border-t border-slate-200"
+          className="text-center mt-8"
         >
-          {/* Left: Notarization Badge */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-teal-500/10 flex items-center justify-center">
-              <svg className="w-6 h-6 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <span className="text-sm font-medium text-slate-700">Notarized & stapled DMG</span>
-          </div>
-
-          {/* Right: Trust Microcopy */}
-          <div className="flex items-center gap-3 text-sm text-slate-500">
-            <span>No accounts</span>
-            <span>•</span>
-            <span>No tracking</span>
-            <span>•</span>
-            <span>Local-first</span>
-          </div>
+          <p className="text-sm text-slate-500">
+            Early adopters will be grandfathered when pricing launches.
+          </p>
         </MotionDiv>
       </div>
     </section>
   )
 }
-

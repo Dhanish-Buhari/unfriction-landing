@@ -4,237 +4,320 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
-import Image from 'next/image'
-
-const screenshots = [
-  { id: 'overlay', caption: 'Instant overlay', src: '/media/layout.png' },
-  { id: 'autosave', caption: 'Auto-saves', src: '/media/save.png' },
-  { id: 'lock-aware', caption: 'Lock-aware behaviour', src: '/media/lock.png' },
-]
 
 export default function Demo() {
-  const [lightboxOpen, setLightboxOpen] = useState(false)
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [videoError, setVideoError] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [videoPoster, setVideoPoster] = useState<string | null>(null)
+  const [hasTrackedStart, setHasTrackedStart] = useState(false)
+  const [progressTracked, setProgressTracked] = useState({
+    25: false,
+    50: false,
+    75: false,
+    100: false,
+  })
   const prefersReducedMotion = useReducedMotion()
-  const backgroundVideoRef = useRef<HTMLVideoElement>(null)
+  const posterVideoRef = useRef<HTMLVideoElement>(null)
   const modalVideoRef = useRef<HTMLVideoElement>(null)
-  const selectedScreenshot = screenshots.find((item) => item.id === selectedImage)
 
-  const openLightbox = () => {
-    // Ensure background video is paused
-    if (backgroundVideoRef.current) {
-      backgroundVideoRef.current.pause()
-    }
-    setLightboxOpen(true)
-    trackEvent(ANALYTICS_EVENTS.CTA_DEMO_CLICK)
-  }
-
-  const closeLightbox = () => {
-    // Pause modal video when closing
-    if (modalVideoRef.current) {
-      modalVideoRef.current.pause()
-    }
-    setLightboxOpen(false)
-  }
-
-  const openImageModal = (imageId: string) => {
-    setSelectedImage(imageId)
-  }
-
-  const closeImageModal = () => {
-    setSelectedImage(null)
-  }
-
-  // Ensure background video never autoplays
+  // Capture first frame of video as thumbnail
   useEffect(() => {
-    if (backgroundVideoRef.current) {
-      backgroundVideoRef.current.pause()
-      // Prevent any autoplay attempts
-      backgroundVideoRef.current.autoplay = false
+    const video = posterVideoRef.current
+    if (!video) return
+
+    const captureFrame = () => {
+      try {
+        if (video.videoWidth === 0 || video.videoHeight === 0) return
+        
+        const canvas = document.createElement('canvas')
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.85)
+          setVideoPoster(dataUrl)
+        }
+      } catch (error) {
+        console.warn('Could not capture video frame:', error)
+      }
+    }
+
+    const handleLoadedData = () => {
+      if (video.readyState >= 2 && video.videoWidth > 0) {
+        video.currentTime = 0.1
+      }
+    }
+
+    const handleSeeked = () => {
+      if (video.videoWidth > 0 && video.videoHeight > 0) {
+        captureFrame()
+      }
+    }
+
+    const handleLoadedMetadata = () => {
+      video.currentTime = 0.1
+    }
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata)
+    video.addEventListener('loadeddata', handleLoadedData)
+    video.addEventListener('seeked', handleSeeked)
+
+    if (video.readyState >= 1) {
+      video.currentTime = 0.1
+    }
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      video.removeEventListener('loadeddata', handleLoadedData)
+      video.removeEventListener('seeked', handleSeeked)
     }
   }, [])
 
-  // Handle ESC key to close modals
+  const openModal = () => {
+    setIsModalOpen(true)
+    trackEvent(ANALYTICS_EVENTS.DEMO_BUTTON_CLICKED, {
+      location: 'demo_section',
+    })
+    // Also track legacy event for backward compatibility
+    trackEvent(ANALYTICS_EVENTS.CTA_DEMO_CLICK)
+  }
+
+  const closeModal = () => {
+    const video = modalVideoRef.current
+    if (video) {
+      const currentTime = video.currentTime
+      const duration = video.duration
+      const percentWatched = duration > 0 ? (currentTime / duration) * 100 : 0
+      
+      // Track modal close with watch percentage
+      trackEvent(ANALYTICS_EVENTS.DEMO_MODAL_CLOSED, {
+        percent_watched: Math.round(percentWatched),
+        watch_time: Math.round(currentTime),
+      })
+      
+      video.pause()
+    }
+    setIsModalOpen(false)
+    // Reset tracking states when modal closes
+    setHasTrackedStart(false)
+    setProgressTracked({ 25: false, 50: false, 75: false, 100: false })
+  }
+
+  // Track video progress and events
+  useEffect(() => {
+    const video = modalVideoRef.current
+    if (!video || !isModalOpen) return
+
+    const handlePlay = () => {
+      if (!hasTrackedStart) {
+        trackEvent(ANALYTICS_EVENTS.DEMO_VIDEO_STARTED, {
+          video_duration: Math.round(video.duration),
+        })
+        setHasTrackedStart(true)
+      }
+    }
+
+    const handleTimeUpdate = () => {
+      if (!video.duration) return
+      
+      const currentTime = video.currentTime
+      const duration = video.duration
+      const percent = (currentTime / duration) * 100
+
+      // Track 25% milestone
+      if (percent >= 25 && !progressTracked[25]) {
+        trackEvent(ANALYTICS_EVENTS.DEMO_VIDEO_25_PERCENT, {
+          watch_time: Math.round(currentTime),
+        })
+        setProgressTracked((prev) => ({ ...prev, 25: true }))
+      }
+
+      // Track 50% milestone
+      if (percent >= 50 && !progressTracked[50]) {
+        trackEvent(ANALYTICS_EVENTS.DEMO_VIDEO_50_PERCENT, {
+          watch_time: Math.round(currentTime),
+        })
+        setProgressTracked((prev) => ({ ...prev, 50: true }))
+      }
+
+      // Track 75% milestone
+      if (percent >= 75 && !progressTracked[75]) {
+        trackEvent(ANALYTICS_EVENTS.DEMO_VIDEO_75_PERCENT, {
+          watch_time: Math.round(currentTime),
+        })
+        setProgressTracked((prev) => ({ ...prev, 75: true }))
+      }
+
+      // Track 100% completion
+      if (percent >= 100 && !progressTracked[100]) {
+        trackEvent(ANALYTICS_EVENTS.DEMO_VIDEO_COMPLETED, {
+          total_duration: Math.round(duration),
+        })
+        setProgressTracked((prev) => ({ ...prev, 100: true }))
+      }
+    }
+
+    const handlePause = () => {
+      if (hasTrackedStart) {
+        trackEvent(ANALYTICS_EVENTS.DEMO_VIDEO_PAUSED, {
+          pause_time: Math.round(video.currentTime),
+          percent_watched: video.duration > 0 
+            ? Math.round((video.currentTime / video.duration) * 100)
+            : 0,
+        })
+      }
+    }
+
+    video.addEventListener('play', handlePlay)
+    video.addEventListener('timeupdate', handleTimeUpdate)
+    video.addEventListener('pause', handlePause)
+
+    return () => {
+      video.removeEventListener('play', handlePlay)
+      video.removeEventListener('timeupdate', handleTimeUpdate)
+      video.removeEventListener('pause', handlePause)
+    }
+  }, [isModalOpen, hasTrackedStart, progressTracked])
+
+  // Handle ESC key to close modal
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        if (lightboxOpen) {
-          closeLightbox()
-        }
-        if (selectedImage) {
-          closeImageModal()
-        }
+      if (e.key === 'Escape' && isModalOpen) {
+        closeModal()
       }
     }
-
-    // Also listen to the global closeLightbox event
-    const handleCloseEvent = () => {
-      if (lightboxOpen) {
-        closeLightbox()
-      }
-      if (selectedImage) {
-        closeImageModal()
-      }
-    }
-
     window.addEventListener('keydown', handleEsc)
-    window.addEventListener('closeLightbox', handleCloseEvent)
-    
-    return () => {
-      window.removeEventListener('keydown', handleEsc)
-      window.removeEventListener('closeLightbox', handleCloseEvent)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [isModalOpen])
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
     }
-  }, [lightboxOpen, selectedImage])
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isModalOpen])
 
   return (
-    <section id="demo" className="py-20 bg-slate-50 border-t border-slate-100">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">See it in action</h2>
-          <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-            A glassy, distraction-free writing surface that appears on demand.
-          </p>
-        </div>
+    <>
+      <section id="demo" className="py-16 md:py-24 bg-white">
+        <div className="max-w-5xl mx-auto px-6">
+          <motion.div
+            {...(!prefersReducedMotion && {
+              initial: { opacity: 0, y: 20 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.5 },
+            })}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900">
+              See Unfriction in action
+            </h2>
+            <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+              A 57-second walkthrough of instant launch and OCR
+            </p>
+          </motion.div>
 
-        {/* Main Demo Video */}
-        <div
-          className="aspect-video bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl flex items-center justify-center cursor-pointer hover:shadow-2xl transition-all hover:scale-[1.01] mb-12 border border-slate-200/50 overflow-hidden relative group max-w-4xl mx-auto"
-          onClick={openLightbox}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && openLightbox()}
-        >
-          {!videoError ? (
-            <video
-              ref={backgroundVideoRef}
-              loop
-              playsInline
-              muted
-              preload="metadata"
-              className="w-full h-full object-cover pointer-events-none"
-              onError={() => setVideoError(true)}
-              onPlay={(e) => {
-                // Prevent background video from playing - only allow in modal
-                if (!lightboxOpen) {
-                  e.currentTarget.pause()
-                }
-              }}
-            >
-              <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
-              <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
-            </video>
-          ) : (
-            <>
-              <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-transparent to-transparent"></div>
-              <div className="text-center relative z-10 p-8">
-                <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-teal-500/20 flex items-center justify-center group-hover:bg-teal-500/30 transition-colors">
+          {/* Hidden video to capture first frame */}
+          <video
+            ref={posterVideoRef}
+            className="hidden"
+            preload="metadata"
+            muted
+            playsInline
+          >
+            <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
+            <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
+          </video>
+
+          {/* Thumbnail with play button */}
+          <motion.div
+            {...(!prefersReducedMotion && {
+              initial: { opacity: 0, y: 20 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true },
+              transition: { duration: 0.5, delay: 0.1 },
+            })}
+            className="relative rounded-xl overflow-hidden shadow-xl border border-slate-200 bg-slate-900 cursor-pointer group"
+            onClick={openModal}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && openModal()}
+            aria-label="Play demo video"
+          >
+            <div className="aspect-video relative w-full bg-slate-900">
+              {/* First frame thumbnail */}
+              {videoPoster ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={videoPoster}
+                  alt="Demo video thumbnail"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                  <p className="text-slate-400 text-sm">Loading video...</p>
+                </div>
+              )}
+
+              {/* Play button overlay */}
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/10 transition-colors">
+                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-white/95 backdrop-blur-sm border border-white/20 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform">
                   <svg
-                    className="w-10 h-10 text-teal-500 group-hover:scale-110 transition-transform"
+                    className="w-10 h-10 md:w-12 md:h-12 text-slate-900 ml-1"
                     fill="currentColor"
-                    viewBox="0 0 20 20"
+                    viewBox="0 0 24 24"
                   >
-                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                    <path d="M8 5v14l11-7z" />
                   </svg>
                 </div>
-                <p className="text-slate-500 font-medium mb-1">Click to play demo</p>
-                <p className="text-slate-400 text-sm">Video loading...</p>
-              </div>
-            </>
-          )}
-          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-3 text-white transition-opacity duration-200 group-hover:opacity-0">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-black/40 blur-xl" />
-              <div className="relative w-20 h-20 rounded-full bg-white/15 border border-white/30 flex items-center justify-center backdrop-blur">
-                <svg
-                  className="w-8 h-8"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={1.8}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <polygon points="9.5 7 17 12 9.5 17" fill="currentColor" />
-                </svg>
               </div>
             </div>
-            <span className="uppercase tracking-[0.4em] text-xs text-white/80">
-              Play Demo
-            </span>
-          </div>
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent opacity-70 group-hover:opacity-30 transition-opacity" />
+          </motion.div>
         </div>
+      </section>
 
-        {/* Screenshot Thumbnails */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {screenshots.map((screenshot, index) => (
-            <motion.div
-              key={screenshot.id}
-              {...(!prefersReducedMotion && {
-                initial: { opacity: 0, y: 20 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true },
-                transition: { delay: index * 0.1, duration: 0.4 },
-              })}
-              onClick={() => openImageModal(screenshot.id)}
-              className="cursor-pointer group"
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && openImageModal(screenshot.id)}
-            >
-              <div className="relative aspect-video bg-slate-900 rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden border border-slate-200/50 group-hover:scale-[1.02]">
-                <Image
-                  src={screenshot.src}
-                  alt={screenshot.caption}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  className="object-cover"
-                  priority={index === 0}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-900/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-x-0 bottom-0 p-4">
-                  <p className="text-white text-sm font-medium">{screenshot.caption}</p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Lightbox for Demo Video */}
+      {/* Video Modal */}
       <AnimatePresence>
-        {lightboxOpen && (
+        {isModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            onClick={closeLightbox}
+            className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+            onClick={closeModal}
           >
             <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="max-w-5xl w-full"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              className="max-w-6xl w-full relative"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="aspect-video bg-slate-800 rounded-xl overflow-hidden">
-                <video
-                  ref={modalVideoRef}
-                  autoPlay
-                  loop
-                  playsInline
-                  controls
-                  className="w-full h-full"
-                >
-                  <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
-                  <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
-                </video>
+              <div className="relative rounded-xl overflow-hidden bg-slate-900 shadow-2xl">
+                <div className="aspect-video relative">
+                  <video
+                    ref={modalVideoRef}
+                    autoPlay
+                    controls
+                    className="w-full h-full"
+                    preload="auto"
+                  >
+                    <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
+                    <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
               </div>
               <button
-                onClick={closeLightbox}
-                className="mt-4 mx-auto block text-white/80 hover:text-white text-sm"
+                onClick={closeModal}
+                className="mt-4 mx-auto block text-white/80 hover:text-white text-sm transition-colors"
+                aria-label="Close modal"
               >
                 Close (ESC)
               </button>
@@ -242,51 +325,6 @@ export default function Demo() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Image Modal */}
-      <AnimatePresence>
-        {selectedScreenshot && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-            onClick={closeImageModal}
-          >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="max-w-4xl w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="bg-white rounded-xl p-2">
-                <div className="relative aspect-video overflow-hidden rounded-lg">
-                  <Image
-                    src={selectedScreenshot.src}
-                    alt={selectedScreenshot.caption}
-                    fill
-                    sizes="90vw"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-              <button
-                onClick={closeImageModal}
-                className="mt-4 mx-auto block text-white/80 hover:text-white text-sm"
-              >
-                Close (ESC)
-              </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </section>
+    </>
   )
 }
-
-
-
-
-
-

@@ -3,15 +3,16 @@
 import { useEffect } from 'react'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
-import MobileStickyCTA from '@/components/MobileStickyCTA'
-import ValueTrio from '@/components/ValueTrio'
+import WhoItsFor from '@/components/WhoItsFor'
 import FeaturesGrid from '@/components/FeaturesGrid'
+import HowItWorks from '@/components/HowItWorks'
 import Demo from '@/components/Demo'
-import Testimonial from '@/components/Testimonial'
+import Testimonials from '@/components/Testimonials'
 import Pricing from '@/components/Pricing'
 import FAQ from '@/components/FAQ'
-import EmailCapture from '@/components/EmailCapture'
 import Footer from '@/components/Footer'
+import FinalCTA from '@/components/FinalCTA'
+import FloatingDownloadCTA from '@/components/FloatingDownloadCTA'
 import { trackEvent, ANALYTICS_EVENTS } from '@/lib/analytics'
 import AnalyticsTracker from '@/components/AnalyticsTracker'
 
@@ -37,22 +38,23 @@ export default function Home() {
       <Nav />
       <main className="min-h-screen">
         <Hero />
-        <ValueTrio />
+        <WhoItsFor />
         <div id="features">
           <FeaturesGrid />
         </div>
+        <HowItWorks />
         <div id="demo">
           <Demo />
         </div>
-        <Testimonial />
+        <Testimonials />
         <div id="pricing">
           <Pricing />
         </div>
         <FAQ />
-        <EmailCapture />
+        <FinalCTA />
         <Footer />
       </main>
-      <MobileStickyCTA />
+      <FloatingDownloadCTA />
     </>
   )
 }
