@@ -232,6 +232,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-6 text-xs text-slate-500">
               <span>Made with ❤️ for Mac users</span>
+              <span className="text-slate-400">v1.1</span>
             </div>
           </div>
         </div>
