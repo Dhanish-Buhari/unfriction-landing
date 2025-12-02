@@ -68,8 +68,11 @@ export default function Hero() {
             transition: { duration: 0.5, ease: 'easeOut', delay: 0.1 },
           })}
         >
-          <p className="text-xl md:text-2xl text-slate-600 mb-10 leading-relaxed">
+          <p className="text-xl md:text-2xl text-slate-600 mb-2 leading-relaxed">
             Launches in &lt;400ms. Capture thoughts with one shortcut.
+          </p>
+          <p className="text-sm text-slate-400 mb-10">
+            Version 1.1
           </p>
         </MotionDiv>
 

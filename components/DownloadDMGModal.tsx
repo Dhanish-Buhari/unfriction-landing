@@ -168,3 +168,4 @@ export default function DownloadDMGModal({ isOpen, onClose }: DownloadDMGModalPr
     </AnimatePresence>
   )
 }
+

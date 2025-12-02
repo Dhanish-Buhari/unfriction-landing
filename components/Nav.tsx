@@ -88,6 +88,7 @@ export default function Nav() {
                 className="w-8 h-8 transition-transform group-hover:scale-105"
               />
               <span className="font-semibold text-xl text-slate-900">Unfriction</span>
+              <span className="text-xs text-slate-400 font-medium">v1.1</span>
             </Link>
 
             {/* Desktop Navigation */}
