@@ -45,8 +45,14 @@ export default function Hero() {
   const MotionDiv = prefersReducedMotion ? 'div' : motion.div
 
   return (
-    <section id="hero" className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-white">
-      <div className="max-w-5xl mx-auto px-6 text-center">
+    <section id="hero" className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-gradient-to-b from-white via-slate-50/30 to-white overflow-hidden">
+      {/* Premium background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-teal-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-100/20 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
         <MotionDiv
           {...(!prefersReducedMotion && {
             initial: { y: 20, opacity: 0 },
@@ -54,7 +60,7 @@ export default function Hero() {
             transition: { duration: 0.5, ease: 'easeOut' },
           })}
         >
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.1] tracking-tight mb-6 text-slate-900">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-extrabold leading-[1.1] tracking-tight mb-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
             Instant notes.
             <br />
             Zero friction.
@@ -87,7 +93,7 @@ export default function Hero() {
         >
           <button 
             onClick={handleDownloadClick}
-            className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-slate-900 hover:bg-slate-800 active:bg-slate-900 text-white font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+            className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-gradient-to-r from-slate-900 to-slate-800 hover:from-slate-800 hover:to-slate-700 text-white font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
             style={{ minHeight: '56px' }}
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -97,7 +103,7 @@ export default function Hero() {
           </button>
           <button 
             onClick={handleDemoClick}
-            className="inline-flex items-center justify-center gap-2.5 px-6 py-5 text-slate-700 hover:text-slate-900 font-medium rounded-xl border-2 border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2"
+            className="inline-flex items-center justify-center gap-2.5 px-6 py-5 text-slate-700 hover:text-slate-900 font-medium rounded-xl border-2 border-slate-200 hover:border-slate-300 bg-white/80 backdrop-blur-sm hover:bg-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 shadow-md hover:shadow-lg"
             style={{ minHeight: '56px' }}
           >
             <svg 
@@ -147,9 +153,11 @@ export default function Hero() {
           animate: { scale: 1, opacity: 1 },
           transition: { duration: 0.6, ease: 'easeOut', delay: 0.4 },
         })}
-        className="mt-16 md:mt-20 max-w-5xl mx-auto px-6"
+        className="mt-16 md:mt-20 max-w-5xl mx-auto px-6 relative z-10"
       >
-        <div className="relative rounded-xl overflow-hidden shadow-xl border border-slate-200 bg-white">
+        <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-200/50 bg-white/50 backdrop-blur-sm">
+          {/* Premium glow effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-50/20 via-transparent to-blue-50/20 pointer-events-none"></div>
           <div className="aspect-[16/11] md:aspect-[16/10] relative w-full overflow-hidden">
             <Image
               src="/media/hero-screenshot.png"
