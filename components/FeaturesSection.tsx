@@ -44,7 +44,7 @@ export default function FeaturesSection() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-white via-slate-50/50 to-white">
+    <section className="py-12 md:py-20 bg-gradient-to-b from-white via-slate-50/50 to-white">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           {...(!prefersReducedMotion && {
@@ -53,9 +53,9 @@ export default function FeaturesSection() {
             viewport: { once: true },
             transition: { duration: 0.5 },
           })}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-bold mb-3 text-slate-900 tracking-tight">
             A writing surface that stays out of your way
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
@@ -63,7 +63,7 @@ export default function FeaturesSection() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-8 lg:gap-10">
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
           {featureBuckets.map((bucket, index) => {
             const MotionDiv = prefersReducedMotion ? 'div' : motion.div
             const IconComponent = bucket.icon
@@ -82,14 +82,14 @@ export default function FeaturesSection() {
                   whileHover: { y: -4, scale: 1.02 },
                 })}
               >
-                <div className="h-full p-8 rounded-2xl border border-slate-200/80 bg-white/80 backdrop-blur-sm hover:border-slate-300 hover:shadow-xl transition-all duration-300 hover:bg-white">
-                  <div className={`w-14 h-14 rounded-xl ${bucket.bgColor} flex items-center justify-center mb-6 shadow-sm group-hover:scale-110 transition-transform`}>
-                    <IconComponent className={`w-7 h-7 ${bucket.color}`} strokeWidth={2.5} />
+                <div className="h-full p-6 rounded-2xl border border-slate-200/80 bg-white/80 backdrop-blur-sm hover:border-slate-300 hover:shadow-xl transition-all duration-300 hover:bg-white">
+                  <div className={`w-12 h-12 rounded-xl ${bucket.bgColor} flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform`}>
+                    <IconComponent className={`w-6 h-6 ${bucket.color}`} strokeWidth={2.5} />
                   </div>
-                  <h3 className="text-xl font-bold mb-5 text-slate-900 leading-snug">
+                  <h3 className="text-xl font-bold mb-4 text-slate-900 leading-snug">
                     {bucket.headline}
                   </h3>
-                  <ul className="space-y-3.5">
+                  <ul className="space-y-3">
                     {bucket.bullets.map((bullet, bulletIndex) => (
                       <li key={bulletIndex} className="flex items-start gap-3">
                         <svg className="w-5 h-5 text-teal-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
