@@ -16,42 +16,42 @@ const TESTIMONIALS: Testimonial[] = [
     name: 'Daniel S.',
     role: 'Developer',
     quote:
-      'Tried it and it\'s really handy for quick notes and tasks. Way more space than a Raycast extension. Minimal design, stays out of the way but still feels powerful. The keyboard shortcuts are exactly what I need, and the fact that it stays on top without being annoying is perfect. Would be amazing if we have sync soon so I can use it on my Mac and iPad.',
+      'Tried it and it\'s really handy for quick notes and tasks. Way more space than a Raycast extension. Minimal design, stays out of the way but still feels powerful. The keyboard shortcuts are exactly what I need, and the fact that it stays on top without being annoying is perfect.',
     earlyUser: true,
   },
   {
     name: 'Aaron M.',
     role: 'Indie Maker',
     quote:
-      'Watched the demo and this is exactly what I\'ve been looking for. Dead simple quick overlay, been searching for something like this for years. It opens instantly and doesn\'t get in my way. The tagging system is clean and the export feature means I can actually trust it with my notes.',
+      'Started using it while working on a side project, and it surprised me how naturally it fits into my workflow. It opens instantly and doesn\'t get in my way. The tagging system is clean and the export feature means I can actually trust it with my notes.',
     earlyUser: true,
   },
   {
     name: 'Sam P.',
     role: 'Software Engineer',
     quote:
-      'Super fast. OCR worked perfectly on first try. No issues. Finally a notes app that actually works. I drop in a screenshot and it just extracts the text. No cloud nonsense, everything stays local. This is how notes apps should be.',
+      'Super fast. OCR worked perfectly on first try. No issues. I drop in a screenshot and it just extracts the text. No cloud nonsense, everything stays local. This is how notes apps should be.',
     earlyUser: true,
   },
   {
     name: 'Maya T.',
     role: 'Writer',
     quote:
-      'Finally an app that disappears when I don\'t need it. Perfect for staying focused. I can jot down ideas without breaking my flow, and the transparency settings mean it doesn\'t distract me. Been using it for drafts and random thoughts, and it just works.',
+      'Didn\'t expect this to stick, but after two days I instinctively hit the shortcut before thinking. I can jot down ideas without breaking my flow, and the transparency settings mean it doesn\'t distract me. Been using it for drafts and random thoughts, and it just works.',
     earlyUser: true,
   },
   {
     name: 'Anika S.',
     role: 'Product Designer',
     quote:
-      'The instant overlay saved my workflow so many times already. Totally worth it. I use it for capturing inspiration, quick notes during calls, and organizing my thoughts. The pinning feature is great for keeping important notes accessible. Really hoping sync comes soon so I can access these on all my devices.',
+      'The instant overlay saved my workflow so many times already. Totally worth it. I use it for capturing inspiration, quick notes during calls, and organizing my thoughts. The pinning feature is great for keeping important notes accessible.',
     earlyUser: true,
   },
   {
     name: 'Tom H.',
     role: 'Mac Power User',
     quote:
-      'Notion is like a gym membership everyone has but nobody uses. This actually solves that problem. It\'s there when I need it, gone when I don\'t. The local storage means I control my data, and the speed is exactly what I needed. Using it alongside my other tools now.',
+      'At first I thought it was just another notes app gimmick, but after a day I realized how fast this thing becomes muscle memory. It\'s there when I need it, gone when I don\'t. The local storage means I control my data, and the speed is exactly what I needed.',
     earlyUser: true,
   },
   {
