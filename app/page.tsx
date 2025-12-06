@@ -3,12 +3,13 @@
 import { useEffect } from 'react'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
+import WhatsNew from '@/components/WhatsNew'
 import WhoItsFor from '@/components/WhoItsFor'
 import FeaturesGrid from '@/components/FeaturesGrid'
 import HowItWorks from '@/components/HowItWorks'
 import Demo from '@/components/Demo'
 import Testimonials from '@/components/Testimonials'
-import Pricing from '@/components/Pricing'
+import PricingSection from '@/components/PricingSection'
 import FAQ from '@/components/FAQ'
 import Footer from '@/components/Footer'
 import FinalCTA from '@/components/FinalCTA'
@@ -38,6 +39,7 @@ export default function Home() {
       <Nav />
       <main className="min-h-screen">
         <Hero />
+        <WhatsNew />
         <WhoItsFor />
         <div id="features">
           <FeaturesGrid />
@@ -48,7 +50,7 @@ export default function Home() {
         </div>
         <Testimonials />
         <div id="pricing">
-          <Pricing />
+          <PricingSection />
         </div>
         <FAQ />
         <FinalCTA />

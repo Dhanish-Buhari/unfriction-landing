@@ -34,6 +34,23 @@ next-env.d.ts
 
 # editor history
 .history/
+.cursor/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.log
+dist/
+build/
 
 
 

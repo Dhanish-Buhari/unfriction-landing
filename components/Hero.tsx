@@ -69,10 +69,10 @@ export default function Hero() {
           })}
         >
           <p className="text-xl md:text-2xl text-slate-600 mb-2 leading-relaxed">
-            Launches in &lt;400ms. Capture thoughts with one shortcut.
+            Launches in &lt;400ms. Now with smart tagging, export, and more.
           </p>
           <p className="text-sm text-slate-400 mb-10">
-            Version 1.1
+            Version 1.1 — New: Tags · Export · Shortcuts Cheatsheet
           </p>
         </MotionDiv>
 
