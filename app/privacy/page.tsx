@@ -75,7 +75,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold mb-4">Payment Processing</h2>
             <p className="text-slate-600">
               Payments are processed securely through Polar.sh. We do not store 
-              your credit card information. Please refer to Polar.sh's privacy policy:
+              your credit card information. Please refer to Polar.sh&apos;s privacy policy:
             </p>
             <ul className="list-disc pl-6 text-slate-600 space-y-2 mt-4">
               <li>
