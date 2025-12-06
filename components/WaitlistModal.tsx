@@ -185,9 +185,9 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">You're on the list! 🎉</h3>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re on the list! 🎉</h3>
                   <p className="text-slate-600">
-                    We'll notify you as soon as Unfriction Pro launches.
+                    We&apos;ll notify you as soon as Unfriction Pro launches.
                   </p>
                 </div>
               ) : (
@@ -285,9 +285,9 @@ export default function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-2">You're on the list! 🎉</h3>
+                      <h3 className="text-2xl font-bold text-slate-900 mb-2">You&apos;re on the list! 🎉</h3>
                       <p className="text-slate-600">
-                        We'll notify you as soon as Unfriction Pro launches.
+                        We&apos;ll notify you as soon as Unfriction Pro launches.
                       </p>
                     </div>
                   ) : (

@@ -79,7 +79,7 @@ export default function WhatsNew() {
             Version 1.1
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 tracking-tight">
-            What's New in v1.1
+            What&apos;s New in v1.1
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
             Powerful new features and improvements to make your note-taking even faster
