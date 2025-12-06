@@ -43,7 +43,16 @@ vercel --prod
 
 ## Environment Variables
 
-No environment variables are required for the basic setup. If you add analytics:
+### Required for Waitlist (Pro Plan)
+
+- `LOOPS_API_KEY`: Your Loops API key for managing waitlist signups
+  - Get it from: https://app.loops.so/settings/api
+  - Add subscribers to the `waitlist` tag
+  - View waitlist entries in Loops dashboard → Contacts → Filter by tag: `waitlist`
+
+### Optional - Analytics
+
+No other environment variables are required for the basic setup. If you add analytics:
 
 ### For Plausible (Optional)
 Add this script to `app/layout.tsx`:

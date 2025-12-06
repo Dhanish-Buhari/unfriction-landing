@@ -157,26 +157,26 @@ export function getTierBadge(tier: PricingTier): {
   switch (tier) {
     case 'FOUNDERS_75':
       return {
-        label: 'Founder Tier — 75% OFF',
-        emoji: '🔥',
+        label: 'Founder Tier - 75% OFF',
+        emoji: '',
         color: 'bg-orange-500',
       }
     case 'EARLY_50':
       return {
-        label: 'Early Tier — 50% OFF',
-        emoji: '⚡',
+        label: 'Early Supporter - 50% OFF',
+        emoji: '',
         color: 'bg-yellow-500',
       }
     case 'LAUNCH_25':
       return {
-        label: 'Launch Tier — 25% OFF',
-        emoji: '🎯',
+        label: 'Launch Pricing - 25% OFF',
+        emoji: '',
         color: 'bg-blue-500',
       }
     case 'FULL':
       return {
-        label: 'Full Price',
-        emoji: '✨',
+        label: 'Standard Price',
+        emoji: '',
         color: 'bg-slate-500',
       }
   }

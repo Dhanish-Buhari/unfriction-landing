@@ -72,7 +72,7 @@ export default function Hero() {
             Launches in &lt;400ms. Now with smart tagging, export, and more.
           </p>
           <p className="text-sm text-slate-400 mb-10">
-            Version 1.1 — New: Tags · Export · Shortcuts Cheatsheet
+            Version 1.1 - New: Tags · Export · Shortcuts Cheatsheet
           </p>
         </MotionDiv>
 
@@ -122,7 +122,7 @@ export default function Hero() {
           className="mb-6"
         >
           <p className="text-sm text-slate-500">
-            82+ downloads this week — macOS Sonoma & Ventura supported.
+            82+ downloads this week - macOS Sonoma & Ventura supported.
           </p>
         </MotionDiv>
 

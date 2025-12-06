@@ -5,7 +5,7 @@ import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import WhatsNew from '@/components/WhatsNew'
 import WhoItsFor from '@/components/WhoItsFor'
-import FeaturesGrid from '@/components/FeaturesGrid'
+import FeaturesSection from '@/components/FeaturesSection'
 import HowItWorks from '@/components/HowItWorks'
 import Demo from '@/components/Demo'
 import Testimonials from '@/components/Testimonials'
@@ -42,7 +42,7 @@ export default function Home() {
         <WhatsNew />
         <WhoItsFor />
         <div id="features">
-          <FeaturesGrid />
+          <FeaturesSection />
         </div>
         <HowItWorks />
         <div id="demo">
