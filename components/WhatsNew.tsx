@@ -63,7 +63,7 @@ export default function WhatsNew() {
   const prefersReducedMotion = useReducedMotion()
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-white to-slate-50">
+    <section className="py-12 md:py-16 bg-gradient-to-b from-white to-slate-50">
       <div className="max-w-6xl mx-auto px-6">
         <motion.div
           {...(!prefersReducedMotion && {
@@ -72,13 +72,13 @@ export default function WhatsNew() {
             viewport: { once: true },
             transition: { duration: 0.5 },
           })}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-teal-100 text-teal-700 rounded-full text-sm font-semibold mb-3">
             <span className="w-2 h-2 bg-teal-500 rounded-full animate-pulse"></span>
             Version 1.1
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-bold mb-3 text-slate-900 tracking-tight">
             What&apos;s New in v1.1
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
@@ -86,7 +86,7 @@ export default function WhatsNew() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-10">
           {updates.map((section, sectionIndex) => (
             <div key={section.category}>
               <motion.h3
@@ -96,11 +96,11 @@ export default function WhatsNew() {
                   viewport: { once: true },
                   transition: { duration: 0.4, delay: sectionIndex * 0.1 },
                 })}
-                className="text-xl font-bold text-slate-900 mb-6"
+                className="text-xl font-bold text-slate-900 mb-5"
               >
                 {section.category}
               </motion.h3>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {section.items.map((item, index) => {
                   const MotionDiv = prefersReducedMotion ? 'div' : motion.div
                   const IconComponent = item.icon
