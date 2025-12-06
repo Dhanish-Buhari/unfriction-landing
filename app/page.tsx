@@ -6,6 +6,7 @@ import Hero from '@/components/Hero'
 import WhatsNew from '@/components/WhatsNew'
 import WhoItsFor from '@/components/WhoItsFor'
 import FeaturesSection from '@/components/FeaturesSection'
+import VisualFeatures from '@/components/VisualFeatures'
 import HowItWorks from '@/components/HowItWorks'
 import Demo from '@/components/Demo'
 import Testimonials from '@/components/Testimonials'
@@ -44,6 +45,7 @@ export default function Home() {
         <div id="features">
           <FeaturesSection />
         </div>
+        <VisualFeatures />
         <HowItWorks />
         <div id="demo">
           <Demo />

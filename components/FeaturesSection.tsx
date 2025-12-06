@@ -11,20 +11,20 @@ const featureBuckets = [
     color: 'text-amber-500',
     bgColor: 'bg-amber-50',
     bullets: [
-      'Launch overlay in under 400ms with a global shortcut',
+      'Launch the overlay in under 400ms with a global shortcut',
       'Stays on top of any app, desktop, fullscreen, or Space',
       'Autosaves every 0.5s so you never lose a thought',
     ],
   },
   {
-    headline: 'Your brain, not your tool, is the main character.',
+    headline: 'Your brain stays in the foreground.',
     icon: Brain,
     color: 'text-blue-500',
     bgColor: 'bg-blue-50',
     bullets: [
-      'Minimal, glassy interface with optional transparency',
-      'No accounts, no inbox, no notifications',
-      'Notes, tags, search, and pinning - nothing bloated',
+      'Minimal, glassy interface with adjustable transparency',
+      'No accounts, no inbox, no notifications, no "workspace" nonsense',
+      'Notes, tags, search, and pinning – just the essentials, nothing bloated',
     ],
   },
   {
@@ -33,9 +33,9 @@ const featureBuckets = [
     color: 'text-purple-500',
     bgColor: 'bg-purple-50',
     bullets: [
-      'Drag & drop or paste images for instant OCR via Apple\'s Vision framework',
-      'Copy extracted text directly into your workflow',
-      'Export and back up notes locally (Lifetime only)',
+      'Drag & drop or paste images for instant OCR using Apple\'s Vision framework',
+      'Copy extracted text straight into your workflow',
+      'Export and back up notes locally (lifetime users keep this forever)',
     ],
   },
 ]
