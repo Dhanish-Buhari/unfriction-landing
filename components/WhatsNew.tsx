@@ -118,9 +118,9 @@ export default function WhatsNew() {
                         },
                       })}
                     >
-                      <div className="flex gap-4 p-4 rounded-lg hover:bg-white transition-colors duration-200">
-                        <div className={`w-10 h-10 rounded-lg ${item.bgColor} flex items-center justify-center flex-shrink-0`}>
-                          <IconComponent className={`w-5 h-5 ${item.color}`} strokeWidth={2} />
+                      <div className="flex gap-4 p-5 rounded-xl hover:bg-white hover:shadow-md border border-transparent hover:border-slate-200 transition-all duration-300">
+                        <div className={`w-12 h-12 rounded-xl ${item.bgColor} flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                          <IconComponent className={`w-6 h-6 ${item.color}`} strokeWidth={2.5} />
                         </div>
                         <div>
                           <h4 className="font-semibold text-slate-900 mb-1">
