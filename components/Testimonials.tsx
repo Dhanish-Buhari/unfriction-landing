@@ -4,103 +4,66 @@ import { motion } from 'framer-motion'
 import { useReducedMotion } from '@/lib/useReducedMotion'
 import { Star } from 'lucide-react'
 
-// Realistic testimonials with ratings and sources
-const testimonials = [
+type Testimonial = {
+  name: string
+  role: string
+  source: string
+  quote: string
+}
+
+const TESTIMONIALS: Testimonial[] = [
   {
-    quote: 'Unfriction opens before I finish thinking. Life-changing.',
-    name: 'Karthik R.',
-    role: 'Product Manager',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
+    name: 'Riya',
+    role: 'Student & writer',
+    source: 'Reddit · Early user',
+    quote:
+      'Just used it. It\'s SO good. Super quick, feels smooth, and already part of my daily workflow.',
   },
   {
-    quote: 'The instant overlay saved my workflow a hundred times. Best $9 I\'ve spent.',
-    name: 'Anika S.',
-    role: 'Designer',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
+    name: 'dev_all_the_ops',
+    role: 'Developer · ex-NVAlt user',
+    source: 'Reddit · Early user',
+    quote:
+      'I\'ve been hanging onto NVAlt for years because nothing else felt as fast. Unfriction might finally be good enough to replace it. Notes are just plain text markdown on disk, so I\'m never locked in.',
   },
   {
-    quote: 'OCR nailed it on first try. No fuss. Finally, a notes app that just works.',
-    name: 'Sam P.',
+    name: 'Ghost_of_Panda',
+    role: 'Power user',
+    source: 'Reddit · Early user',
+    quote:
+      'I\'m still figuring out the best way to use it, but it\'s quick as hell to open. Little Snitch didn\'t even see a single network request. Fully local, zero noise. Love that.',
+  },
+  {
+    name: 'itsdanielsultan',
     role: 'Developer',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
+    source: 'Reddit · Early user',
+    quote:
+      'Tried it, and it\'s really handy for quick notes and tasks with way more space than a Raycast extension. Minimal design, stays out of the way, but still feels powerful.',
   },
   {
-    quote: 'Finally an app that disappears when I don\'t want it. Perfect for focus work.',
-    name: 'Maya T.',
-    role: 'Writer',
-    rating: 5,
-    source: 'Email',
-    sourceIcon: '✉️',
-    earlyUser: true,
+    name: 'Affectionate_One_700',
+    role: 'Indie maker',
+    source: 'Reddit · early demo watcher',
+    quote:
+      'Watched the 57-second demo and this is exactly the kind of app I\'ve always wanted. Been looking for a dead-simple quick note overlay for years.',
   },
   {
-    quote: 'Switched from Notion to this. 400ms launch time is insane. Worth every penny.',
-    name: 'Alex M.',
-    role: 'Entrepreneur',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
-  },
-  {
-    quote: 'The OCR feature is magic. Screenshot to text in seconds. Game changer.',
-    name: 'Sarah L.',
-    role: 'Researcher',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
-  },
-  {
-    quote: 'Dark mode looks beautiful. Fast, clean, no bloat. Exactly what I needed.',
-    name: 'Jordan K.',
-    role: 'Developer',
-    rating: 5,
-    source: 'Twitter',
-    sourceIcon: '🐦',
-    earlyUser: false,
-  },
-  {
-    quote: 'Early supporter here. Already using it daily. Can\'t go back to slow apps.',
-    name: 'Taylor R.',
-    role: 'Designer',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
-  },
-  {
-    quote: 'Local-first is the move. No cloud sync nonsense. Just works offline.',
-    name: 'Casey D.',
-    role: 'Student',
-    rating: 5,
-    source: 'Reddit',
-    sourceIcon: '🔴',
-    earlyUser: true,
+    name: 'corychu',
+    role: 'Designer & developer',
+    source: 'Reddit · Early user',
+    quote:
+      'Great prototype. The overlay is fast and reliable, and the macOS details—shortcuts, gestures, multi-display behavior—are clearly being thought through. With sync and iOS this could become a daily essential.',
   },
 ]
 
 // Star component
-const Stars = ({ rating }: { rating: number }) => {
+const Stars = () => {
   return (
     <div className="flex items-center gap-0.5">
       {[...Array(5)].map((_, i) => (
         <Star
           key={i}
-          className={`w-4 h-4 ${
-            i < rating
-              ? 'fill-amber-400 text-amber-400'
-              : 'fill-slate-200 text-slate-200'
-          }`}
+          className="w-4 h-4 fill-amber-400 text-amber-400"
         />
       ))}
     </div>
@@ -111,11 +74,11 @@ export default function Testimonials() {
   const prefersReducedMotion = useReducedMotion()
 
   // Duplicate testimonials for seamless infinite scroll
-  const duplicatedTestimonials = [...testimonials, ...testimonials, ...testimonials]
+  const duplicatedTestimonials = [...TESTIMONIALS, ...TESTIMONIALS, ...TESTIMONIALS]
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-white via-slate-50/50 to-white">
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-6xl mx-auto px-6">
         <motion.div
           {...(!prefersReducedMotion && {
             initial: { opacity: 0, y: 20 },
@@ -131,11 +94,9 @@ export default function Testimonials() {
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-4">
             Early users are already replacing slow notes tools with Unfriction
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-full">
-            <Stars rating={5} />
-            <span className="text-sm font-semibold text-amber-900">4.9/5</span>
-            <span className="text-xs text-amber-700">from 82+ early users</span>
-          </div>
+          <p className="text-sm text-slate-500">
+            Based on feedback from early Reddit testers and indie makers.
+          </p>
         </motion.div>
 
         {/* Infinite scrolling testimonials */}
@@ -166,38 +127,31 @@ export default function Testimonials() {
             {duplicatedTestimonials.map((testimonial, index) => (
               <div
                 key={`${testimonial.name}-${index}`}
-                className="flex-shrink-0 w-[300px] md:w-[340px] p-6 bg-white rounded-xl border border-slate-200/80 hover:border-slate-300 hover:shadow-xl transition-all duration-300"
+                className="flex-shrink-0 w-[300px] md:w-[340px] p-6 bg-white rounded-xl border border-slate-200/80 hover:border-slate-300 hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full"
               >
-                {/* Rating & Badges */}
-                <div className="flex items-center justify-between mb-3">
-                  <Stars rating={testimonial.rating} />
-                  <div className="flex items-center gap-2">
-                    {testimonial.earlyUser && (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-teal-50 border border-teal-200 text-teal-700 text-xs font-semibold rounded-full">
-                        <span className="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
-                        Early User
-                      </span>
-                    )}
-                    <span className="text-xs text-slate-400 flex items-center gap-1">
-                      <span>{testimonial.sourceIcon}</span>
-                      {testimonial.source}
-                    </span>
-                  </div>
+                {/* Stars */}
+                <div className="mb-4">
+                  <Stars />
                 </div>
 
                 {/* Quote */}
-                <p className="text-slate-700 mb-5 leading-relaxed text-[15px]">
+                <p className="text-slate-700 mb-5 leading-relaxed text-[15px] flex-grow">
                   &ldquo;{testimonial.quote}&rdquo;
                 </p>
 
-                {/* Author */}
-                <div className="pt-4 border-t border-slate-100">
-                  <p className="font-semibold text-slate-900 text-sm mb-0.5">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    {testimonial.role}
-                  </p>
+                {/* Footer */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+                  <div>
+                    <p className="font-semibold text-slate-900 text-sm mb-0.5">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {testimonial.role}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center rounded-full border border-slate-200 px-2.5 py-1 text-[11px] font-medium text-slate-600 bg-slate-50/60 flex-shrink-0">
+                    {testimonial.source}
+                  </span>
                 </div>
               </div>
             ))}
