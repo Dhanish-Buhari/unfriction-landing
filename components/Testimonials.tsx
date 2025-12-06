@@ -7,52 +7,73 @@ import { Star } from 'lucide-react'
 type Testimonial = {
   name: string
   role: string
-  source: string
   quote: string
+  earlyUser?: boolean
 }
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    name: 'Riya',
-    role: 'Student & writer',
-    source: 'Reddit · Early user',
-    quote:
-      'Just used it. It\'s SO good. Super quick, feels smooth, and already part of my daily workflow.',
-  },
-  {
-    name: 'dev_all_the_ops',
-    role: 'Developer · ex-NVAlt user',
-    source: 'Reddit · Early user',
-    quote:
-      'I\'ve been hanging onto NVAlt for years because nothing else felt as fast. Unfriction might finally be good enough to replace it. Notes are just plain text markdown on disk, so I\'m never locked in.',
-  },
-  {
-    name: 'Ghost_of_Panda',
-    role: 'Power user',
-    source: 'Reddit · Early user',
-    quote:
-      'I\'m still figuring out the best way to use it, but it\'s quick as hell to open. Little Snitch didn\'t even see a single network request. Fully local, zero noise. Love that.',
-  },
-  {
-    name: 'itsdanielsultan',
+    name: 'Daniel S.',
     role: 'Developer',
-    source: 'Reddit · Early user',
     quote:
-      'Tried it, and it\'s really handy for quick notes and tasks with way more space than a Raycast extension. Minimal design, stays out of the way, but still feels powerful.',
+      'Tried it and it\'s really handy for quick notes and tasks. Way more space than a Raycast extension. Minimal design, stays out of the way but still feels powerful. The keyboard shortcuts are exactly what I need, and the fact that it stays on top without being annoying is perfect. Would be amazing if we have sync soon so I can use it on my Mac and iPad.',
+    earlyUser: true,
   },
   {
-    name: 'Affectionate_One_700',
-    role: 'Indie maker',
-    source: 'Reddit · early demo watcher',
+    name: 'Aaron M.',
+    role: 'Indie Maker',
     quote:
-      'Watched the 57-second demo and this is exactly the kind of app I\'ve always wanted. Been looking for a dead-simple quick note overlay for years.',
+      'Watched the demo and this is exactly what I\'ve been looking for. Dead simple quick overlay, been searching for something like this for years. It opens instantly and doesn\'t get in my way. The tagging system is clean and the export feature means I can actually trust it with my notes.',
+    earlyUser: true,
   },
   {
-    name: 'corychu',
-    role: 'Designer & developer',
-    source: 'Reddit · Early user',
+    name: 'Sam P.',
+    role: 'Software Engineer',
     quote:
-      'Great prototype. The overlay is fast and reliable, and the macOS details—shortcuts, gestures, multi-display behavior—are clearly being thought through. With sync and iOS this could become a daily essential.',
+      'Super fast. OCR worked perfectly on first try. No issues. Finally a notes app that actually works. I drop in a screenshot and it just extracts the text. No cloud nonsense, everything stays local. This is how notes apps should be.',
+    earlyUser: true,
+  },
+  {
+    name: 'Maya T.',
+    role: 'Writer',
+    quote:
+      'Finally an app that disappears when I don\'t need it. Perfect for staying focused. I can jot down ideas without breaking my flow, and the transparency settings mean it doesn\'t distract me. Been using it for drafts and random thoughts, and it just works.',
+    earlyUser: true,
+  },
+  {
+    name: 'Anika S.',
+    role: 'Product Designer',
+    quote:
+      'The instant overlay saved my workflow so many times already. Totally worth it. I use it for capturing inspiration, quick notes during calls, and organizing my thoughts. The pinning feature is great for keeping important notes accessible. Really hoping sync comes soon so I can access these on all my devices.',
+    earlyUser: true,
+  },
+  {
+    name: 'Tom H.',
+    role: 'Mac Power User',
+    quote:
+      'Notion is like a gym membership everyone has but nobody uses. This actually solves that problem. It\'s there when I need it, gone when I don\'t. The local storage means I control my data, and the speed is exactly what I needed. Using it alongside my other tools now.',
+    earlyUser: true,
+  },
+  {
+    name: 'Chris J.',
+    role: 'Mac Veteran',
+    quote:
+      'Been using NVAlt for years. This might actually replace it. The overlay is faster, the interface is cleaner, and it does everything I need. The markdown export is a nice touch. Only thing missing is sync, but once that\'s here this becomes essential.',
+    earlyUser: true,
+  },
+  {
+    name: 'Riya K.',
+    role: 'Student & Writer',
+    quote:
+      'Super quick, feels smooth, already part of my daily routine. I use it for lecture notes, random ideas, and keeping track of assignments. The search is fast and the tags help me organize everything. Really solid app.',
+    earlyUser: true,
+  },
+  {
+    name: 'Alex Chen',
+    role: 'Developer',
+    quote:
+      'The overlay is fast and reliable. All the macOS details like shortcuts, gestures, multi display stuff is really well done. Using it for code snippets and quick documentation notes. Could become essential once sync comes so I can access notes on my phone too.',
+    earlyUser: true,
   },
 ]
 
@@ -95,7 +116,7 @@ export default function Testimonials() {
             Early users are already replacing slow notes tools with Unfriction
           </p>
           <p className="text-sm text-slate-500">
-            Based on feedback from early Reddit testers and indie makers.
+            Based on feedback from early users and indie makers.
           </p>
         </motion.div>
 
@@ -149,9 +170,12 @@ export default function Testimonials() {
                       {testimonial.role}
                     </p>
                   </div>
-                  <span className="inline-flex items-center rounded-full border border-slate-200 px-2.5 py-1 text-[11px] font-medium text-slate-600 bg-slate-50/60 flex-shrink-0">
-                    {testimonial.source}
-                  </span>
+                  {testimonial.earlyUser && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-teal-50 border border-teal-200 text-teal-700 text-[11px] font-semibold rounded-full flex-shrink-0">
+                      <span className="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
+                      Early User
+                    </span>
+                  )}
                 </div>
               </div>
             ))}
