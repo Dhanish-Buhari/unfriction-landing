@@ -11,6 +11,10 @@ const faqs = [
     answer: 'Unfriction is a lightning-fast note-taking app for macOS that launches in under 400ms. It\'s designed to capture your thoughts instantly with zero friction—no accounts, no cloud sync delays, just pure speed. It appears as a glassy overlay above any app and disappears when you\'re done.',
   },
   {
+    question: 'What\'s new in v1.1?',
+    answer: 'Version 1.1 brings smart tagging (#tag auto-extraction and filtering), export & backup functionality, a keyboard shortcuts cheatsheet (⌘/), beautiful dark mode by default, improved ESC key navigation, and bug fixes for light mode button visibility.',
+  },
+  {
     question: 'Is it really free?',
     answer: 'Unfriction is free for early users, but not free forever. We\'ll introduce a Pro plan later that adds features like iCloud sync, priority support, and team features. Early users will get a discount and keep unlimited OCR.',
   },
@@ -20,7 +24,7 @@ const faqs = [
   },
   {
     question: 'Is my data private?',
-    answer: 'Yes. Unfriction is local-first by default. Your notes stay on your Mac. No cloud sync, no accounts, no tracking. You can export your notes anytime if you want to back them up elsewhere.',
+    answer: 'Yes. Unfriction is local-first by default. Your notes stay on your Mac. No cloud sync, no accounts, no tracking. You can export your notes anytime, and v1.1 now includes automatic backup to ~/Documents/Unfriction.',
   },
   {
     question: 'How do I install it?',
