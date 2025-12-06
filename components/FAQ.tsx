@@ -8,7 +8,7 @@ import { ChevronDown } from 'lucide-react'
 const faqs = [
   {
     question: 'What is Unfriction?',
-    answer: 'Unfriction is a lightning-fast note-taking app for macOS that launches in under 400ms. It\'s designed to capture your thoughts instantly with zero friction—no accounts, no cloud sync delays, just pure speed. It appears as a glassy overlay above any app and disappears when you\'re done.',
+    answer: 'Unfriction is a lightning-fast note-taking app for macOS that launches in under 400ms. It\'s designed to capture your thoughts instantly with zero friction - no accounts, no cloud sync delays, just pure speed. It appears as a glassy overlay above any app and disappears when you\'re done.',
   },
   {
     question: 'What\'s new in v1.1?',

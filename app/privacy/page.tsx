@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — Unfriction',
+  title: 'Privacy Policy - Unfriction',
   description: 'Privacy policy for Unfriction macOS app',
 }
 
@@ -74,28 +74,18 @@ export default function PrivacyPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Payment Processing</h2>
             <p className="text-slate-600">
-              Payments are processed securely through Gumroad or LemonSqueezy. We do not store 
-              your credit card information. Please refer to their respective privacy policies:
+              Payments are processed securely through Polar.sh. We do not store 
+              your credit card information. Please refer to Polar.sh's privacy policy:
             </p>
             <ul className="list-disc pl-6 text-slate-600 space-y-2 mt-4">
               <li>
                 <a 
-                  href="https://gumroad.com/privacy" 
+                  href="https://polar.sh/legal/privacy" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-teal-500 hover:text-teal-600"
                 >
-                  Gumroad Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://www.lemonsqueezy.com/privacy" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-teal-500 hover:text-teal-600"
-                >
-                  LemonSqueezy Privacy Policy
+                  Polar.sh Privacy Policy
                 </a>
               </li>
             </ul>

@@ -20,10 +20,10 @@ export default function Testimonial() {
           className="border-l-4 border-teal-400 pl-6 py-2"
         >
           <blockquote className="text-xl italic text-slate-700 mb-3">
-            &ldquo;Unfriction is absurdly fast — my notes open before I finish thinking.&rdquo;
+            &ldquo;Unfriction is absurdly fast - my notes open before I finish thinking.&rdquo;
           </blockquote>
           <cite className="text-sm text-slate-500 not-italic">
-            — Karthik R., PM
+            - Karthik R., PM
           </cite>
         </MotionDiv>
       </div>

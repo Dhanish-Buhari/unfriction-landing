@@ -4,19 +4,19 @@ import Analytics from '@/components/Analytics'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 
 export const metadata: Metadata = {
-  title: 'Unfriction — Instant overlay notes for macOS | Opens in <400ms',
-  description: 'Capture thoughts instantly with Unfriction — launches in <400ms, does OCR from screenshots, notarized DMG. Free for early users.',
+  title: 'Unfriction - Instant overlay notes for macOS | Opens in <400ms',
+  description: 'Capture thoughts instantly with Unfriction - launches in <400ms, does OCR from screenshots, notarized DMG. Free for early users.',
   metadataBase: new URL('https://unfriction.app'),
   openGraph: {
-    title: 'Unfriction — Instant overlay notes for macOS | Opens in <400ms',
-    description: 'Capture thoughts instantly with Unfriction — launches in <400ms, does OCR from screenshots, notarized DMG. Free for early users.',
+    title: 'Unfriction - Instant overlay notes for macOS | Opens in <400ms',
+    description: 'Capture thoughts instantly with Unfriction - launches in <400ms, does OCR from screenshots, notarized DMG. Free for early users.',
     images: ['/assets/og-placeholder.png'],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Unfriction — Instant overlay notes for macOS | Opens in <400ms',
-    description: 'Capture thoughts instantly with Unfriction — launches in <400ms, does OCR from screenshots, notarized DMG. Free for early users.',
+    title: 'Unfriction - Instant overlay notes for macOS | Opens in <400ms',
+    description: 'Capture thoughts instantly with Unfriction - launches in <400ms, does OCR from screenshots, notarized DMG. Free for early users.',
     images: ['/assets/og-placeholder.png'],
   },
   icons: {

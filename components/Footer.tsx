@@ -230,7 +230,15 @@ export default function Footer() {
             <p className="text-sm text-slate-500">
               © {currentYear} Unfriction. All rights reserved.
             </p>
-            <div className="flex items-center gap-6 text-xs text-slate-500">
+            <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-xs text-slate-500">
+              <a 
+                href="mailto:support@unfriction.app" 
+                className="text-teal-500 hover:text-teal-600 transition-colors"
+                onClick={handleSupportClick}
+              >
+                support@unfriction.app
+              </a>
+              <span className="hidden md:inline text-slate-400">•</span>
               <span>Made with ❤️ for Mac users</span>
               <span className="text-slate-400">v1.1</span>
             </div>

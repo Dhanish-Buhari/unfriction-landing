@@ -64,7 +64,7 @@ export default function FloatingDownloadCTA() {
             style={{
               boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.1)',
             }}
-            aria-label="Download Free — Early User"
+            aria-label="Download Free - Early User"
           >
             <svg
               className="w-4 h-4"

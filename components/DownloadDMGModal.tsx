@@ -121,7 +121,7 @@ export default function DownloadDMGModal({ isOpen, onClose }: DownloadDMGModalPr
             </div>
 
             <h2 className="text-2xl font-bold text-center mb-3 text-slate-900">
-              Notarized DMG — No accounts
+              Notarized DMG - No accounts
             </h2>
             <p className="text-center text-slate-600 mb-6">
               Secure download verified by Apple
