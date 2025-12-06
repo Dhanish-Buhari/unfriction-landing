@@ -11,21 +11,14 @@ export default function FinalCTA() {
     trackEvent(ANALYTICS_EVENTS.DOWNLOAD_FINAL_CTA, {
       location: 'final_cta',
     })
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, {
-      source: 'final_cta',
-      early_user: true,
-    })
     
-    try {
-      const link = document.createElement('a')
-      link.href = '/Unfriction.dmg'
-      link.download = 'Unfriction.dmg'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    } catch (error) {
-      console.error('Download failed:', error)
-      window.open('/Unfriction.dmg', '_blank')
+    // Scroll to pricing section
+    const pricingSection = document.getElementById('pricing')
+    if (pricingSection) {
+      const navHeight = 72
+      const elementPosition = pricingSection.getBoundingClientRect().top + window.pageYOffset
+      const offsetPosition = elementPosition - navHeight
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
     }
   }
 

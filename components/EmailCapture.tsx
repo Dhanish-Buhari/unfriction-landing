@@ -15,13 +15,30 @@ export default function EmailCapture() {
     setStatus('loading')
     trackEvent('email_signup', { email })
 
-    // TODO: Wire to Netlify function or Gumroad
-    // For now, just simulate success
-    setTimeout(() => {
-      setStatus('success')
-      setEmail('')
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus('success')
+        setEmail('')
+        setTimeout(() => setStatus('idle'), 3000)
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 3000)
+      }
+    } catch (error) {
+      console.error('Subscription error:', error)
+      setStatus('error')
       setTimeout(() => setStatus('idle'), 3000)
-    }, 1000)
+    }
   }
 
   return (
@@ -38,7 +55,7 @@ export default function EmailCapture() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="your@email.com"
-            className="flex-1 px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+            className="flex-1 px-4 py-3 rounded-lg border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
             disabled={status === 'loading'}
           />
           <button

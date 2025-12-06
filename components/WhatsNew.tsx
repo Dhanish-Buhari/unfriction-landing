@@ -11,21 +11,21 @@ const updates = [
       {
         icon: Tag,
         title: 'Smart Tagging System',
-        description: 'Auto-extract #tags from your notes and filter by tags instantly',
+        description: 'Auto-extracts #tags as you type so you can filter notes instantly without manual organization.',
         color: 'text-pink-500',
         bgColor: 'bg-pink-50',
       },
       {
         icon: Download,
         title: 'Export & Backup',
-        description: 'Export all notes with automatic backup to ~/Documents/Unfriction',
+        description: 'Export all notes as markdown with automatic backup to ~/Documents/Unfriction so your data is always portable.',
         color: 'text-blue-500',
         bgColor: 'bg-blue-50',
       },
       {
         icon: Keyboard,
         title: 'Shortcuts Cheatsheet',
-        description: 'Press ⌘/ anywhere to see all available keyboard shortcuts',
+        description: 'Press ⌘/ anywhere to see every available keyboard shortcut in a tiny overlay. No more guessing.',
         color: 'text-teal-500',
         bgColor: 'bg-teal-50',
       },
@@ -37,21 +37,21 @@ const updates = [
       {
         icon: Moon,
         title: 'Beautiful Dark Mode',
-        description: 'New default dark mode with 0% glass opacity for maximum visibility',
+        description: 'New default dark mode with 0% glass opacity so text stays razor sharp while the app fades into the background.',
         color: 'text-indigo-500',
         bgColor: 'bg-indigo-50',
       },
       {
         icon: Navigation,
         title: 'Smarter Navigation',
-        description: 'ESC key now intelligently returns you to the main notes view',
+        description: 'ESC now reliably takes you back to the main notes view from settings, shortcuts, or explorer. Fewer clicks, less friction.',
         color: 'text-emerald-500',
         bgColor: 'bg-emerald-50',
       },
       {
         icon: Bug,
         title: 'Bug Fixes',
-        description: 'Fixed light mode button visibility and appearance mode switching',
+        description: 'Improved light-mode button contrast, appearance-mode switching, and visual polish for a smoother overall experience.',
         color: 'text-amber-500',
         bgColor: 'bg-amber-50',
       },
@@ -82,7 +82,7 @@ export default function WhatsNew() {
             What&apos;s New in v1.1
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
-            Powerful new features and improvements to make your note-taking even faster
+            Faster capture, smarter organization, smoother macOS-native flow.
           </p>
         </motion.div>
 

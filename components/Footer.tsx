@@ -17,12 +17,28 @@ export default function Footer() {
     setStatus('loading')
     trackEvent(ANALYTICS_EVENTS.EMAIL_SIGNUP, { location: 'footer', email })
 
-    // TODO: Wire to your email service
-    setTimeout(() => {
-      setStatus('success')
-      setEmail('')
-      setTimeout(() => setStatus('idle'), 3000)
-    }, 1000)
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus('success')
+        setEmail('')
+        setTimeout(() => setStatus('idle'), 3000)
+      } else {
+        setStatus('idle')
+      }
+    } catch (error) {
+      console.error('Subscription error:', error)
+      setStatus('idle')
+    }
   }
 
   const footerLinks = {
@@ -102,7 +118,7 @@ export default function Footer() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="flex-1 px-5 py-3.5 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
+              className="flex-1 px-5 py-3.5 border border-slate-300 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all"
               disabled={status === 'loading'}
             />
             <button
