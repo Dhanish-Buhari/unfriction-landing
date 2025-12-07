@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Download, Sparkles } from 'lucide-react'
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams()
   const [email, setEmail] = useState<string | null>(null)
   
@@ -102,6 +102,18 @@ export default function SuccessPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white via-slate-50 to-white">
+        <div className="animate-pulse text-slate-400">Loading...</div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   )
 }
 

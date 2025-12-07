@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { setMockPurchaseCount, getMockPurchaseCount } from '@/lib/polar'
 
+// Mark as dynamic
+export const dynamic = 'force-dynamic'
+
 /**
  * Test endpoint to mock purchase count for testing different tiers
  * This overrides the real Polar API call for testing

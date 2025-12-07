@@ -72,8 +72,11 @@ export async function getLifetimePurchasesCount(): Promise<number> {
     )
 
     if (!response.ok) {
-      const errorText = await response.text()
-      console.error(`Polar API error: ${response.status} ${response.statusText}`, errorText)
+      // Don't log errors during build - just return 0
+      if (process.env.NODE_ENV !== 'production' || process.env.VERCEL_ENV !== 'production') {
+        const errorText = await response.text()
+        console.error(`Polar API error: ${response.status} ${response.statusText}`, errorText)
+      }
       return 0
     }
 

@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
+// Mark as dynamic to prevent build-time analysis
+export const dynamic = 'force-dynamic'
+
 /**
  * Polar.sh Webhook Handler
  * 
