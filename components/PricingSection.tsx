@@ -88,10 +88,10 @@ export default function PricingSection() {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-6xl font-bold mb-5 text-slate-900 tracking-tight">
-            Free to start - upgrade when it becomes essential.
+            Free to try. Upgrade when it becomes second nature.
           </h2>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Early adopters get grandfathered lifetime features. The longer you wait, the more you pay.
+            Early adopters keep the lifetime perks. Waiting costs more.
           </p>
         </MotionDiv>
 

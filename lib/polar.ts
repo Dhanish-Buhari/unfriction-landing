@@ -16,10 +16,36 @@ export interface LifetimePricingState {
   originalPrice: number
 }
 
+// Global variable to store mock purchase count (for testing)
+let mockPurchaseCount: number | null = null
+
+/**
+ * Set mock purchase count for testing (development only)
+ */
+export function setMockPurchaseCount(count: number | null) {
+  if (process.env.NODE_ENV === 'development') {
+    mockPurchaseCount = count
+  }
+}
+
+/**
+ * Get mock purchase count (for testing)
+ */
+export function getMockPurchaseCount(): number | null {
+  return mockPurchaseCount
+}
+
 /**
  * Fetch the count of successful lifetime purchases from Polar API
+ * In test mode, can use mocked purchase count
  */
 export async function getLifetimePurchasesCount(): Promise<number> {
+  // Check for mock purchase count (for testing)
+  if (process.env.NODE_ENV === 'development' && mockPurchaseCount !== null) {
+    console.log(`[TEST MODE] Using mock purchase count: ${mockPurchaseCount}`)
+    return mockPurchaseCount
+  }
+
   const apiKey = process.env.POLAR_API_KEY
   const productId = process.env.POLAR_PRODUCT_ID_LIFETIME
 
@@ -86,61 +112,63 @@ export async function getLifetimePurchasesCount(): Promise<number> {
 
 /**
  * Get the current pricing state based on purchase count
+ * Uses checkout link with discount codes instead of multiple price IDs
  */
 export async function getLifetimePricingState(): Promise<LifetimePricingState> {
   const count = await getLifetimePurchasesCount()
 
-  const priceId9 = process.env.POLAR_PRICE_ID_9
-  const priceId19 = process.env.POLAR_PRICE_ID_19
-  const priceId29 = process.env.POLAR_PRICE_ID_29
-  const priceId39 = process.env.POLAR_PRICE_ID_39
+  const checkoutLinkId = process.env.POLAR_CHECKOUT_LINK_ID || 'BHW961g1TbEn4CQDVkDTh5EnBJ53aktNYJh7o2Y8sF1'
+  // Discount codes from Polar dashboard
+  const discount75 = process.env.POLAR_DISCOUNT_CODE_75 || 'FOUNDER75'      // 75% off - First 10 purchases
+  const discount50 = process.env.POLAR_DISCOUNT_CODE_50 || 'EARLY50'       // 50% off - Next 10 purchases (10-19)
+  const discount25 = process.env.POLAR_DISCOUNT_CODE_25 || 'FIRSTFIFTY50'  // 25% off - Next 30 purchases (20-49)
 
-  // Founders tier: 0-9 purchases
+  // Founders tier: 0-9 purchases (75% off)
   if (count < 10) {
     return {
       tier: 'FOUNDERS_75',
-      price: 9,
+      price: 9.75,
       remaining: 10 - count,
-      displayPrice: '$9',
-      polarPriceId: priceId9 || '',
+      displayPrice: '$9.75',
+      polarPriceId: `${checkoutLinkId}|${discount75}`, // Format: checkout_link_id|discount_code
       discount: 75,
       originalPrice: 39,
     }
   }
 
-  // Early tier: 10-19 purchases
+  // Early tier: 10-19 purchases (50% off)
   if (count < 20) {
     return {
       tier: 'EARLY_50',
-      price: 19,
+      price: 19.50,
       remaining: 20 - count,
-      displayPrice: '$19',
-      polarPriceId: priceId19 || '',
+      displayPrice: '$19.50',
+      polarPriceId: `${checkoutLinkId}|${discount50}`,
       discount: 50,
       originalPrice: 39,
     }
   }
 
-  // Launch tier: 20-49 purchases
+  // Launch tier: 20-49 purchases (25% off)
   if (count < 50) {
     return {
       tier: 'LAUNCH_25',
-      price: 29,
+      price: 29.25,
       remaining: 50 - count,
-      displayPrice: '$29',
-      polarPriceId: priceId29 || '',
+      displayPrice: '$29.25',
+      polarPriceId: `${checkoutLinkId}|${discount25}`,
       discount: 25,
       originalPrice: 39,
     }
   }
 
-  // Full price: 50+ purchases
+  // Full price: 50+ purchases (no discount)
   return {
     tier: 'FULL',
     price: 39,
     remaining: null,
     displayPrice: '$39',
-    polarPriceId: priceId39 || '',
+    polarPriceId: checkoutLinkId, // No discount
     discount: 0,
     originalPrice: 39,
   }

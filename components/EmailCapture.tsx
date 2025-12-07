@@ -2,10 +2,26 @@
 
 import { useState } from 'react'
 import { trackEvent } from '@/lib/analytics'
+import { supabase } from '@/lib/supabase'
 
 export default function EmailCapture() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [loginStatus, setLoginStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  async function handleLogin(email: string) {
+    setLoginStatus('loading')
+    const { error } = await supabase.auth.signInWithOtp({ email })
+    if (error) {
+      console.error(error)
+      setLoginStatus('error')
+      setTimeout(() => setLoginStatus('idle'), 3000)
+    } else {
+      alert('Login link sent!')
+      setLoginStatus('success')
+      setTimeout(() => setLoginStatus('idle'), 3000)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,6 +94,24 @@ export default function EmailCapture() {
             Something went wrong. Please try again.
           </p>
         )}
+
+        {/* Login Test Button */}
+        <div className="mt-8 pt-8 border-t border-slate-200">
+          <p className="text-sm text-slate-500 mb-3">Test Supabase Auth:</p>
+          <button
+            onClick={() => email && handleLogin(email)}
+            disabled={loginStatus === 'loading' || !email}
+            className="px-4 py-2 bg-teal-500 text-white rounded-lg text-sm font-medium hover:bg-teal-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loginStatus === 'loading' ? 'Sending...' : 'Send Magic Link'}
+          </button>
+          {loginStatus === 'success' && (
+            <p className="mt-2 text-xs text-teal-600">✓ Check your email!</p>
+          )}
+          {loginStatus === 'error' && (
+            <p className="mt-2 text-xs text-red-600">✗ Failed. Check console.</p>
+          )}
+        </div>
       </div>
     </section>
   )
