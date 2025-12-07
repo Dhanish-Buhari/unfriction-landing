@@ -1,27 +1,26 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-let supabaseClient: SupabaseClient | null = null
+let supabaseInstance: SupabaseClient | null = null
 
-function getSupabaseClient(): SupabaseClient {
-  if (!supabaseClient) {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+export function getSupabase(): SupabaseClient {
+  if (!supabaseInstance) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     
-    // During build, use placeholder values to avoid errors
     if (!url || !key) {
-      supabaseClient = createClient('https://placeholder.supabase.co', 'placeholder-key')
-    } else {
-      supabaseClient = createClient(url, key)
+      throw new Error('Supabase environment variables are not configured. Please set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY')
     }
+    
+    supabaseInstance = createClient(url, key)
   }
   
-  return supabaseClient
+  return supabaseInstance
 }
 
-// Lazy initialization - only creates client when accessed
+// Export for backward compatibility (lazy initialization)
 export const supabase = new Proxy({} as SupabaseClient, {
   get(_target, prop) {
-    return getSupabaseClient()[prop as keyof SupabaseClient]
+    return getSupabase()[prop as keyof SupabaseClient]
   }
 })
 

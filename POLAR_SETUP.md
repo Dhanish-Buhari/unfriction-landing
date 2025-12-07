@@ -116,7 +116,7 @@ The system automatically adjusts pricing based on purchase count:
 ## API Endpoint
 
 The pricing data is fetched from:
-- **Local**: `http://localhost:3000/api/pricing`
+- **Production**: `https://unfriction.app/api/pricing`
 - **Production**: `https://yourdomain.com/api/pricing`
 
 This endpoint:

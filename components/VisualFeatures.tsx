@@ -35,23 +35,27 @@ function FeatureItem({ feature, index, prefersReducedMotion }: FeatureItemProps)
           delay: index * 0.1,
         },
       })}
-      className="flex flex-col"
+      className="flex flex-col group"
     >
       {/* GIF Container */}
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-200 bg-slate-50 mb-4 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 mb-4 shadow-sm hover:shadow-lg transition-all duration-300 group">
         {!gifError ? (
-          <Image
-            src={feature.gifPath}
-            alt={`${feature.title} demo`}
-            fill
-            className="object-cover"
-            unoptimized
-            onError={() => setGifError(true)}
-          />
+          <>
+            <Image
+              src={feature.gifPath}
+              alt={`${feature.title} demo`}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              unoptimized
+              onError={() => setGifError(true)}
+            />
+            {/* Subtle overlay on hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/0 to-black/0 group-hover:from-black/5 transition-all duration-300 pointer-events-none" />
+          </>
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-slate-50">
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
             <div className="text-center p-6">
-              <div className={`w-16 h-16 rounded-full ${feature.bgColor} flex items-center justify-center mx-auto mb-3`}>
+              <div className={`w-16 h-16 rounded-full ${feature.bgColor} flex items-center justify-center mx-auto mb-3 shadow-sm`}>
                 <IconComponent className={`w-8 h-8 ${feature.color}`} strokeWidth={2} />
               </div>
               <p className="text-sm text-slate-500 font-medium">GIF placeholder</p>
@@ -65,11 +69,11 @@ function FeatureItem({ feature, index, prefersReducedMotion }: FeatureItemProps)
 
       {/* Feature Content */}
       <div className="flex items-start gap-3">
-        <div className={`w-10 h-10 rounded-lg ${feature.bgColor} flex items-center justify-center flex-shrink-0`}>
+        <div className={`w-10 h-10 rounded-lg ${feature.bgColor} flex items-center justify-center flex-shrink-0 shadow-sm`}>
           <IconComponent className={`w-5 h-5 ${feature.color}`} strokeWidth={2.5} />
         </div>
         <div className="flex-1">
-          <h3 className="text-lg font-bold text-slate-900 mb-1.5">
+          <h3 className="text-lg font-bold text-slate-900 mb-1.5 group-hover:text-slate-700 transition-colors">
             {feature.title}
           </h3>
           <p className="text-sm text-slate-600 leading-relaxed">
@@ -88,7 +92,7 @@ const visualFeatures = [
     icon: Zap,
     color: 'text-amber-500',
     bgColor: 'bg-amber-50',
-    gifPath: '/media/features/instant-launch.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/instant-launch.gif',
   },
   {
     title: 'OCR from Screenshots',
@@ -96,7 +100,7 @@ const visualFeatures = [
     icon: ImageIcon,
     color: 'text-purple-500',
     bgColor: 'bg-purple-50',
-    gifPath: '/media/features/ocr-extraction.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/ocr-extraction.gif',
   },
   {
     title: 'Smart Tagging',
@@ -104,7 +108,7 @@ const visualFeatures = [
     icon: Tag,
     color: 'text-pink-500',
     bgColor: 'bg-pink-50',
-    gifPath: '/media/features/smart-tagging.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/smart-tagging.gif',
   },
   {
     title: 'Export & Backup',
@@ -112,7 +116,7 @@ const visualFeatures = [
     icon: Download,
     color: 'text-blue-500',
     bgColor: 'bg-blue-50',
-    gifPath: '/media/features/export-backup.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/export-backup.gif', // ✅ Mapped: output.gif
   },
   {
     title: 'Dark Mode + Transparency',
@@ -120,7 +124,7 @@ const visualFeatures = [
     icon: Moon,
     color: 'text-indigo-500',
     bgColor: 'bg-indigo-50',
-    gifPath: '/media/features/dark-mode.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/dark-mode.gif',
   },
   {
     title: 'Full Keyboard Shortcuts',
@@ -128,7 +132,7 @@ const visualFeatures = [
     icon: Keyboard,
     color: 'text-teal-500',
     bgColor: 'bg-teal-50',
-    gifPath: '/media/features/keyboard-shortcuts.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/keyboard-shortcuts.gif',
   },
   {
     title: 'Auto-Save',
@@ -136,7 +140,7 @@ const visualFeatures = [
     icon: Save,
     color: 'text-emerald-500',
     bgColor: 'bg-emerald-50',
-    gifPath: '/media/features/autosave.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/autosave.gif',
   },
   {
     title: 'Lock Notes',
@@ -144,7 +148,7 @@ const visualFeatures = [
     icon: Lock,
     color: 'text-rose-500',
     bgColor: 'bg-rose-50',
-    gifPath: '/media/features/lock-notes.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/lock-notes.gif', // ✅ Mapped: Lock Feature.gif
   },
   {
     title: 'Click Outside to Close',
@@ -152,7 +156,7 @@ const visualFeatures = [
     icon: X,
     color: 'text-slate-500',
     bgColor: 'bg-slate-50',
-    gifPath: '/media/features/click-outside-close.gif', // Placeholder - add your GIF here
+    gifPath: '/media/features/click-outside-close.gif',
   },
 ]
 

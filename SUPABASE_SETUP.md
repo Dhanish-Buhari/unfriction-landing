@@ -110,7 +110,7 @@ POLAR_PRICE_ID_39="price-id-for-39-dollars"
 
 ### Test Profile API
 ```bash
-curl -X POST http://localhost:3000/api/profile \
+curl -X POST https://unfriction.app/api/profile \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
 ```
@@ -128,7 +128,7 @@ Expected response:
 
 ### Test Webhook (Simulate Polar Event)
 ```bash
-curl -X POST http://localhost:3000/api/webhooks/polar \
+curl -X POST https://unfriction.app/api/webhooks/polar \
   -H "Content-Type: application/json" \
   -d '{
     "type": "order.created",

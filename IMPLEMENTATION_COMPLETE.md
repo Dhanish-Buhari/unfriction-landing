@@ -130,7 +130,7 @@ GET https://api.polar.sh/v1/orders?product_id={productId}
 
 ```bash
 npm run dev
-# Visit http://localhost:3000/#pricing
+# Visit https://unfriction.app/#pricing
 ```
 
 Check:

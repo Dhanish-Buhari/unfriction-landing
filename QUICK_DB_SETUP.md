@@ -11,7 +11,7 @@ Copy and paste `supabase/migrations/001_create_profiles.sql` into Supabase SQL E
 
 2. **Test Profile Creation**
    ```bash
-   curl -X POST http://localhost:3000/api/profile \
+   curl -X POST https://unfriction.app/api/profile \
      -H "Content-Type: application/json" \
      -d '{"email":"test@example.com"}'
    ```

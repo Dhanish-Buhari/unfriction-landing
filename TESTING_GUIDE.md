@@ -6,42 +6,42 @@
 
 ```bash
 # Set purchase count to 5 (75% discount tier)
-curl http://localhost:3000/api/test/purchase-count?count=5
+curl https://unfriction.app/api/test/purchase-count?count=5
 
 # Set purchase count to 15 (50% discount tier)
-curl http://localhost:3000/api/test/purchase-count?count=15
+curl https://unfriction.app/api/test/purchase-count?count=15
 
 # Set purchase count to 30 (25% discount tier)
-curl http://localhost:3000/api/test/purchase-count?count=30
+curl https://unfriction.app/api/test/purchase-count?count=30
 
 # Set purchase count to 60 (full price tier)
-curl http://localhost:3000/api/test/purchase-count?count=60
+curl https://unfriction.app/api/test/purchase-count?count=60
 
 # Clear mock count (use real API)
-curl -X DELETE http://localhost:3000/api/test/purchase-count
+curl -X DELETE https://unfriction.app/api/test/purchase-count
 ```
 
 ### 2. Check Current Pricing
 
 ```bash
 # See what tier/price is active
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/pricing
 ```
 
 ### 3. Simulate a Purchase (Webhook)
 
 ```bash
 # Simulate purchase for test@example.com
-curl -X POST http://localhost:3000/api/test/webhook \
+curl -X POST https://unfriction.app/api/test/webhook \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
 ```
 
 ### 4. Test Success Page
 
-Just visit: `http://localhost:3000/success`
+Just visit: `https://unfriction.app/success`
 
-Or with email: `http://localhost:3000/success?email=test@example.com`
+Or with email: `https://unfriction.app/success?email=test@example.com`
 
 ---
 
@@ -51,21 +51,21 @@ Or with email: `http://localhost:3000/success?email=test@example.com`
 
 ```bash
 # 1. Set purchase count to 5
-curl http://localhost:3000/api/test/purchase-count?count=5
+curl https://unfriction.app/api/test/purchase-count?count=5
 
 # 2. Check pricing (should show $9.75, 75% off)
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/pricing
 
 # 3. Click "Unlock Lifetime" button on site
 # Should redirect to: https://buy.polar.sh/polar_cl_...?discount_code=FOUNDER75
 
 # 4. Simulate purchase completion
-curl -X POST http://localhost:3000/api/test/webhook \
+curl -X POST https://unfriction.app/api/test/webhook \
   -H "Content-Type: application/json" \
   -d '{"email":"founder@test.com"}'
 
 # 5. Check profile was updated
-curl -X POST http://localhost:3000/api/profile \
+curl -X POST https://unfriction.app/api/profile \
   -H "Content-Type: application/json" \
   -d '{"email":"founder@test.com"}'
 # Should return: plan: "lifetime", notesLimit: 999999, isEarlyAdopter: true
@@ -75,16 +75,16 @@ curl -X POST http://localhost:3000/api/profile \
 
 ```bash
 # 1. Set purchase count to 15
-curl http://localhost:3000/api/test/purchase-count?count=15
+curl https://unfriction.app/api/test/purchase-count?count=15
 
 # 2. Check pricing (should show $19.50, 50% off)
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/pricing
 
 # 3. Click "Unlock Lifetime" button
 # Should redirect with discount_code=EARLY50
 
 # 4. Simulate purchase
-curl -X POST http://localhost:3000/api/test/webhook \
+curl -X POST https://unfriction.app/api/test/webhook \
   -H "Content-Type: application/json" \
   -d '{"email":"early@test.com"}'
 ```
@@ -93,10 +93,10 @@ curl -X POST http://localhost:3000/api/test/webhook \
 
 ```bash
 # 1. Set purchase count to 30
-curl http://localhost:3000/api/test/purchase-count?count=30
+curl https://unfriction.app/api/test/purchase-count?count=30
 
 # 2. Check pricing (should show $29.25, 25% off)
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/pricing
 
 # 3. Click "Unlock Lifetime" button
 # Should redirect with discount_code=FIRSTFIFTY50
@@ -106,10 +106,10 @@ curl http://localhost:3000/api/pricing
 
 ```bash
 # 1. Set purchase count to 60
-curl http://localhost:3000/api/test/purchase-count?count=60
+curl https://unfriction.app/api/test/purchase-count?count=60
 
 # 2. Check pricing (should show $39.00, no discount)
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/pricing
 
 # 3. Click "Unlock Lifetime" button
 # Should redirect WITHOUT discount_code parameter
@@ -122,7 +122,7 @@ curl http://localhost:3000/api/pricing
 ### Check 1: Pricing API Returns Correct Tier
 
 ```bash
-curl http://localhost:3000/api/pricing | jq
+curl https://unfriction.app/api/pricing | jq
 ```
 
 Expected response:
@@ -140,12 +140,12 @@ Expected response:
 
 ```bash
 # Simulate purchase
-curl -X POST http://localhost:3000/api/test/webhook \
+curl -X POST https://unfriction.app/api/test/webhook \
   -H "Content-Type: application/json" \
   -d '{"email":"verify@test.com"}'
 
 # Check profile
-curl -X POST http://localhost:3000/api/profile \
+curl -X POST https://unfriction.app/api/profile \
   -H "Content-Type: application/json" \
   -d '{"email":"verify@test.com"}'
 ```
@@ -163,7 +163,7 @@ Expected response:
 
 ### Check 3: Success Page Shows Correctly
 
-1. Visit: `http://localhost:3000/success`
+1. Visit: `https://unfriction.app/success`
 2. Should see:
    - ✅ Success message
    - ✅ Lifetime access confirmation
@@ -172,7 +172,7 @@ Expected response:
 
 ### Check 4: Checkout URL Has Correct Discount
 
-1. Set purchase count: `curl http://localhost:3000/api/test/purchase-count?count=5`
+1. Set purchase count: `curl https://unfriction.app/api/test/purchase-count?count=5`
 2. Click "Unlock Lifetime" button
 3. Check browser network tab - should redirect to:
    ```
@@ -209,12 +209,12 @@ If you want to test email sending:
 - Check server logs for errors
 
 ### Pricing shows wrong tier?
-- Clear mock count: `curl -X DELETE http://localhost:3000/api/test/purchase-count`
-- Set new count: `curl http://localhost:3000/api/test/purchase-count?count=X`
+- Clear mock count: `curl -X DELETE https://unfriction.app/api/test/purchase-count`
+- Set new count: `curl https://unfriction.app/api/test/purchase-count?count=X`
 - Refresh page
 
 ### Success page not showing?
-- Visit directly: `http://localhost:3000/success`
+- Visit directly: `https://unfriction.app/success`
 - Check if page exists: `ls app/success/page.tsx`
 
 ---
@@ -229,15 +229,15 @@ echo ""
 
 # Test 1: First 10 purchases (75% off)
 echo "1️⃣ Testing Founders Tier (75% off)..."
-curl -s http://localhost:3000/api/test/purchase-count?count=5 > /dev/null
-PRICING=$(curl -s http://localhost:3000/api/pricing)
+curl -s https://unfriction.app/api/test/purchase-count?count=5 > /dev/null
+PRICING=$(curl -s https://unfriction.app/api/pricing)
 echo "   Pricing: $(echo $PRICING | jq -r '.displayPrice') (should be $9.75)"
 echo "   Discount: $(echo $PRICING | jq -r '.discount')% (should be 75%)"
 echo ""
 
 # Test 2: Simulate purchase
 echo "2️⃣ Simulating purchase..."
-WEBHOOK=$(curl -s -X POST http://localhost:3000/api/test/webhook \
+WEBHOOK=$(curl -s -X POST https://unfriction.app/api/test/webhook \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}')
 echo "   Result: $(echo $WEBHOOK | jq -r '.message')"
@@ -245,14 +245,14 @@ echo ""
 
 # Test 3: Verify profile
 echo "3️⃣ Verifying profile..."
-PROFILE=$(curl -s -X POST http://localhost:3000/api/profile \
+PROFILE=$(curl -s -X POST https://unfriction.app/api/profile \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}')
 echo "   Plan: $(echo $PROFILE | jq -r '.plan') (should be 'lifetime')"
 echo "   Early Adopter: $(echo $PROFILE | jq -r '.isEarlyAdopter') (should be true)"
 echo ""
 
-echo "✅ Test complete! Visit http://localhost:3000/success to see success page"
+echo "✅ Test complete! Visit https://unfriction.app/success to see success page"
 ```
 
 Save as `test-flow.sh`, make executable: `chmod +x test-flow.sh`, then run: `./test-flow.sh`

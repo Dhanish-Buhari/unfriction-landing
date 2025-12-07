@@ -1,8 +1,5 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase-admin'
-
-// Mark as dynamic to prevent build-time analysis
-export const dynamic = 'force-dynamic'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 /**
  * Polar.sh Webhook Handler
@@ -132,6 +129,8 @@ async function handleOrderEvent(data: any) {
 
   console.log('Processing lifetime purchase:', { email, productId, priceId, status })
 
+  const supabaseAdmin = getSupabaseAdmin()
+
   // Find or create user by email
   const { data: userList } = await supabaseAdmin.auth.admin.listUsers()
   let user = userList.users.find((u) => u.email === email)
@@ -189,8 +188,9 @@ async function handleSubscriptionEvent(data: any) {
   }
 
   // Find user by email
+  const supabaseAdmin = getSupabaseAdmin()
   const { data: userList } = await supabaseAdmin.auth.admin.listUsers()
-  const user = userList.users.find((u) => u.email === email)
+  const user = userList.users.find((u: any) => u.email === email)
 
   if (!user) {
     console.warn('User not found for subscription:', email)
@@ -199,6 +199,7 @@ async function handleSubscriptionEvent(data: any) {
 
   // Update profile based on subscription status
   if (status === 'active' || status === 'trialing') {
+    const supabaseAdmin = getSupabaseAdmin()
     await supabaseAdmin
       .from('profiles')
       .update({
@@ -227,8 +228,9 @@ async function handleSubscriptionCanceled(data: any) {
   }
 
   // Find user by email
+  const supabaseAdmin = getSupabaseAdmin()
   const { data: userList } = await supabaseAdmin.auth.admin.listUsers()
-  const user = userList.users.find((u) => u.email === email)
+  const user = userList.users.find((u: any) => u.email === email)
 
   if (!user) {
     console.warn('User not found for canceled subscription:', email)
@@ -270,8 +272,9 @@ async function handleOrderRefunded(data: any) {
   }
 
   // Find user by email
+  const supabaseAdmin = getSupabaseAdmin()
   const { data: userList } = await supabaseAdmin.auth.admin.listUsers()
-  const user = userList.users.find((u) => u.email === email)
+  const user = userList.users.find((u: any) => u.email === email)
 
   if (!user) {
     console.warn('User not found for refunded order:', email)

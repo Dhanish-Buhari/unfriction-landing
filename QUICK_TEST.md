@@ -6,27 +6,27 @@
 
 ```bash
 # Test Founders tier (75% off - $9.75)
-curl http://localhost:3000/api/test/purchase-count?count=5
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/test/purchase-count?count=5
+curl https://unfriction.app/api/pricing
 
 # Test Early tier (50% off - $19.50)
-curl http://localhost:3000/api/test/purchase-count?count=15
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/test/purchase-count?count=15
+curl https://unfriction.app/api/pricing
 
 # Test Launch tier (25% off - $29.25)
-curl http://localhost:3000/api/test/purchase-count?count=30
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/test/purchase-count?count=30
+curl https://unfriction.app/api/pricing
 
 # Test Full price ($39.00)
-curl http://localhost:3000/api/test/purchase-count?count=60
-curl http://localhost:3000/api/pricing
+curl https://unfriction.app/api/test/purchase-count?count=60
+curl https://unfriction.app/api/pricing
 ```
 
 ### Simulate Purchase
 
 ```bash
 # Simulate a purchase (updates profile to lifetime)
-curl -X POST http://localhost:3000/api/test/webhook \
+curl -X POST https://unfriction.app/api/test/webhook \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
 ```
@@ -35,14 +35,14 @@ curl -X POST http://localhost:3000/api/test/webhook \
 
 ```bash
 # Check if profile was updated
-curl -X POST http://localhost:3000/api/profile \
+curl -X POST https://unfriction.app/api/profile \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
 ```
 
 ### Test Success Page
 
-Just visit: `http://localhost:3000/success?email=test@example.com`
+Just visit: `https://unfriction.app/success?email=test@example.com`
 
 ### Run Full Test Script
 

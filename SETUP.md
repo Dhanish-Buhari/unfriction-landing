@@ -40,7 +40,7 @@ This will install:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [https://unfriction.app](https://unfriction.app) in your browser.
 
 You should see the Unfriction landing page with placeholder content.
 
@@ -81,7 +81,7 @@ npm run build
 npm run start
 ```
 
-Visit [http://localhost:3000](http://localhost:3000) to test the production build.
+Visit [https://unfriction.app](https://unfriction.app) to test the production build.
 
 ## Common Issues & Solutions
 

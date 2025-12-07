@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase-admin'
 
-// Mark as dynamic to prevent build-time analysis
-export const dynamic = 'force-dynamic'
-
 /**
  * Test endpoint to simulate Polar webhook events
  * Use this to test the purchase flow without making real payments

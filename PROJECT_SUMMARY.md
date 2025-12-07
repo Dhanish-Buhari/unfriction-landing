@@ -218,7 +218,7 @@ Glass effect:  rgba(255,255,255,0.6) with backdrop-blur
    ```bash
    npm run dev
    ```
-   Visit: http://localhost:3000
+   Visit: https://unfriction.app
 
 5. **Build for Production**
    ```bash

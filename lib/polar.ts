@@ -67,16 +67,13 @@ export async function getLifetimePurchasesCount(): Promise<number> {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        next: { revalidate: 60 }, // Cache for 60 seconds
+        next: { revalidate: 30 }, // Cache for 30 seconds (reduced for faster updates)
       }
     )
 
     if (!response.ok) {
-      // Don't log errors during build - just return 0
-      if (process.env.NODE_ENV !== 'production' || process.env.VERCEL_ENV !== 'production') {
-        const errorText = await response.text()
-        console.error(`Polar API error: ${response.status} ${response.statusText}`, errorText)
-      }
+      const errorText = await response.text()
+      console.error(`Polar API error: ${response.status} ${response.statusText}`, errorText)
       return 0
     }
 
@@ -86,6 +83,16 @@ export async function getLifetimePurchasesCount(): Promise<number> {
     // Polar might return: { items: [...] } or { data: [...] } or direct array
     const transactions = data.items || data.data || data || []
 
+    // Log for debugging (only in development)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[Polar API] Raw response structure:', {
+        hasItems: !!data.items,
+        hasData: !!data.data,
+        isArray: Array.isArray(data),
+        totalItems: transactions.length,
+      })
+    }
+
     // Filter for successful, non-refunded transactions
     // Adjust field names based on Polar's actual API response structure
     const successfulPurchases = transactions.filter(
@@ -94,15 +101,34 @@ export async function getLifetimePurchasesCount(): Promise<number> {
         const isRefunded = transaction.refunded || transaction.refunded_at || false
         const transactionProductId = transaction.product_id || transaction.product?.id
 
-        return (
+        const isSuccessful = (
           (status === 'paid' || status === 'completed' || status === 'succeeded') &&
           !isRefunded &&
           transactionProductId === productId
         )
+
+        // Log filtered transactions in development
+        if (process.env.NODE_ENV === 'development' && isSuccessful) {
+          console.log('[Polar API] Successful purchase found:', {
+            id: transaction.id,
+            status,
+            productId: transactionProductId,
+            createdAt: transaction.created_at || transaction.createdAt,
+          })
+        }
+
+        return isSuccessful
       }
     )
 
-    return successfulPurchases.length
+    const count = successfulPurchases.length
+    
+    // Log final count
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[Polar API] Total successful purchases: ${count}`)
+    }
+
+    return count
   } catch (error) {
     console.error('Error fetching Polar purchases:', error)
     // In development, you might want to return a mock count for testing
@@ -119,6 +145,11 @@ export async function getLifetimePurchasesCount(): Promise<number> {
  */
 export async function getLifetimePricingState(): Promise<LifetimePricingState> {
   const count = await getLifetimePurchasesCount()
+  
+  // Log for debugging
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[Pricing] Purchase count: ${count}, calculating tier...`)
+  }
 
   const checkoutLinkId = process.env.POLAR_CHECKOUT_LINK_ID || 'BHW961g1TbEn4CQDVkDTh5EnBJ53aktNYJh7o2Y8sF1'
   // Discount codes from Polar dashboard
@@ -127,11 +158,13 @@ export async function getLifetimePricingState(): Promise<LifetimePricingState> {
   const discount25 = process.env.POLAR_DISCOUNT_CODE_25 || 'FIRSTFIFTY50'  // 25% off - Next 30 purchases (20-49)
 
   // Founders tier: 0-9 purchases (75% off)
+  // Remaining slots = 10 - count (so if count=1, remaining=9)
   if (count < 10) {
+    const remaining = 10 - count
     return {
       tier: 'FOUNDERS_75',
       price: 9.75,
-      remaining: 10 - count,
+      remaining: remaining > 0 ? remaining : 0, // Ensure non-negative
       displayPrice: '$9.75',
       polarPriceId: `${checkoutLinkId}|${discount75}`, // Format: checkout_link_id|discount_code
       discount: 75,
@@ -141,10 +174,11 @@ export async function getLifetimePricingState(): Promise<LifetimePricingState> {
 
   // Early tier: 10-19 purchases (50% off)
   if (count < 20) {
+    const remaining = 20 - count
     return {
       tier: 'EARLY_50',
       price: 19.50,
-      remaining: 20 - count,
+      remaining: remaining > 0 ? remaining : 0,
       displayPrice: '$19.50',
       polarPriceId: `${checkoutLinkId}|${discount50}`,
       discount: 50,
@@ -154,10 +188,11 @@ export async function getLifetimePricingState(): Promise<LifetimePricingState> {
 
   // Launch tier: 20-49 purchases (25% off)
   if (count < 50) {
+    const remaining = 50 - count
     return {
       tier: 'LAUNCH_25',
       price: 29.25,
-      remaining: 50 - count,
+      remaining: remaining > 0 ? remaining : 0,
       displayPrice: '$29.25',
       polarPriceId: `${checkoutLinkId}|${discount25}`,
       discount: 25,

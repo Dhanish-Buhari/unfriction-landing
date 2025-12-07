@@ -17,7 +17,7 @@ npm install
 npm run dev
 ```
 
-🌐 Open [http://localhost:3000](http://localhost:3000)
+🌐 Open [https://unfriction.app](https://unfriction.app)
 
 You should see the landing page with placeholder content!
 

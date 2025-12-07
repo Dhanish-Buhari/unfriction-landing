@@ -3,7 +3,7 @@
 # Test Purchase Flow Script
 # Run: chmod +x test-flow.sh && ./test-flow.sh
 
-BASE_URL="http://localhost:3000"
+BASE_URL="https://unfriction.app"
 
 echo "🧪 Testing Unfriction Purchase Flow"
 echo "===================================="

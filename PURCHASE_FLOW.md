@@ -48,7 +48,7 @@
 ### 1. Configure Success Redirect in Polar
 Go to Polar Dashboard → Checkout Links → Edit your checkout link:
 - Set **Success URL**: `https://unfriction.app/success`
-- Or for local testing: `http://localhost:3000/success`
+- Or for local testing: `https://unfriction.app/success`
 
 ### 2. Verify Webhook is Active
 - Polar Dashboard → Settings → Webhooks
@@ -59,7 +59,7 @@ Go to Polar Dashboard → Checkout Links → Edit your checkout link:
 Add to `.env.local`:
 ```env
 NEXT_PUBLIC_BASE_URL="https://unfriction.app"
-# Or for local: NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+# Or for local: NEXT_PUBLIC_BASE_URL="https://unfriction.app"
 ```
 
 ## Complete Flow Diagram

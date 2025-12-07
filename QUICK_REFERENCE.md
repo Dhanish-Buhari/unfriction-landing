@@ -17,7 +17,7 @@
 3. **Test locally**:
    ```bash
    npm run dev
-   # Visit http://localhost:3000/#pricing
+   # Visit https://unfriction.app/#pricing
    ```
 
 4. **Deploy to Vercel**:
