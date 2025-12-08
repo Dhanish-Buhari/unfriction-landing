@@ -25,14 +25,8 @@ export default function FloatingDownloadCTA() {
       button_type: 'floating_pill',
       early_user: true,
     })
-    // Also track legacy event for backward compatibility
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_MOBILE, {
-      location: 'floating_cta',
-      button_type: 'floating_pill',
-      early_user: true,
-    })
     
-    // Scroll to pricing section
+    // Scroll to pricing section (download disabled, show pricing)
     const pricingSection = document.getElementById('pricing')
     if (pricingSection) {
       const navHeight = 72
@@ -56,17 +50,21 @@ export default function FloatingDownloadCTA() {
             style={{
               boxShadow: '0 10px 30px rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.1)',
             }}
-            aria-label="Download Free - Early User"
+            aria-label="View Pricing - Unlock Lifetime Access"
           >
             <svg
               className="w-4 h-4"
               viewBox="0 0 24 24"
-              fill="currentColor"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               aria-hidden="true"
             >
-              <path d="M16.365 1.43c0 1.14-.417 2.1-1.25 2.9-.9.87-1.99 1.35-3.15 1.27-.04-1.1.47-2.14 1.31-2.94.94-.92 2.05-1.42 3.09-1.23.03.02.03.03 0 .04zM20.65 16.54c-.45 1.07-.67 1.55-1.26 2.49-.82 1.3-1.98 2.92-3.41 2.94-1.27.02-1.6-.84-3.33-.83-1.72.01-2.1.85-3.37.83-1.43-.02-2.53-1.47-3.35-2.77-2.3-3.53-2.54-7.69-1.12-9.89 1-1.53 2.57-2.41 4.04-2.41 1.5 0 2.44.82 3.68.82 1.2 0 1.93-.82 3.65-.82 1.33 0 2.73.72 3.72 1.96-3.25 1.78-2.72 6.42.15 7.68z"/>
+              <path d="M12 2v20M2 12h20"/>
             </svg>
-            <span className="text-sm md:text-base">Download for Mac</span>
+            <span className="text-sm md:text-base">Unlock Lifetime</span>
           </motion.button>
         )}
       </AnimatePresence>
