@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getLifetimePurchasesCount, getLifetimePricingState } from '@/lib/polar'
-import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { getLifetimePricingState } from '@/lib/polar'
 
 /**
  * Debug endpoint to verify purchase count from database
@@ -8,35 +7,19 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
  */
 export async function GET() {
   try {
-    // Get count from our function (which queries Supabase)
-    const count = await getLifetimePurchasesCount()
-    
-    // Get pricing state
     const pricingState = await getLifetimePricingState()
-    
-    // Also query database directly for verification
-    const supabaseAdmin = getSupabaseAdmin()
-    const { count: dbCount, data: profiles, error } = await supabaseAdmin
-      .from('profiles')
-      .select('id, email, plan, created_at, updated_at')
-      .eq('plan', 'lifetime')
 
-    return NextResponse.json({
-      purchaseCount: count,
-      remainingSlots: pricingState.remaining,
-      tier: pricingState.tier,
-      price: pricingState.displayPrice,
-      discount: pricingState.discount,
-      database: {
-        count: dbCount || 0,
-        profiles: profiles || [],
-        error: error?.message,
+    return NextResponse.json(
+      {
+        purchaseCount: 0,
+        remainingSlots: pricingState.remaining,
+        tier: pricingState.tier,
+        price: pricingState.displayPrice,
+        discount: pricingState.discount,
+        message: 'Purchase count logic disabled; returning static pricing state.',
       },
-      calculation: {
-        formula: 'remaining = 10 - purchaseCount',
-        current: `remaining = 10 - ${count} = ${10 - count}`,
-      },
-    })
+      { status: 200 }
+    )
   } catch (error: any) {
     return NextResponse.json(
       { 

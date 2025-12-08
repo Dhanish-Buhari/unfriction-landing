@@ -34,7 +34,7 @@ export async function GET(req: Request) {
     currentMockCount: currentCount,
     message: currentCount !== null 
       ? `Using mock count: ${currentCount} (tier: ${getTierForCount(currentCount)})`
-      : 'No mock count set. Using real Polar API.',
+      : 'No mock count set. Purchase count logic disabled; using static pricing.',
     usage: 'GET /api/test/purchase-count?count=5 to set mock count',
   })
 }
