@@ -4,6 +4,8 @@
  * Server-side functions for fetching purchase data and determining pricing tiers
  */
 
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
+
 type PricingTier = "FOUNDERS_75" | "EARLY_50" | "LAUNCH_25" | "FULL"
 
 export interface LifetimePricingState {
@@ -36,16 +38,61 @@ export function getMockPurchaseCount(): number | null {
 }
 
 /**
- * Fetch the count of successful lifetime purchases from Polar API
- * In test mode, can use mocked purchase count
+ * Fetch the count of successful lifetime purchases from Supabase database
+ * This is the source of truth - updated in real-time when webhooks are received
+ * Falls back to Polar API if database is not available
  */
 export async function getLifetimePurchasesCount(): Promise<number> {
+  // If a forced count is provided via env (for demos), use it
+  const forcedCount = process.env.POLAR_FORCE_PURCHASE_COUNT
+  if (forcedCount !== undefined) {
+    const parsed = parseInt(forcedCount, 10)
+    if (!Number.isNaN(parsed) && parsed >= 0) {
+      console.log(`[Polar] Using forced purchase count from env: ${parsed}`)
+      return parsed
+    }
+  }
+
   // Check for mock purchase count (for testing)
   if (process.env.NODE_ENV === 'development' && mockPurchaseCount !== null) {
     console.log(`[TEST MODE] Using mock purchase count: ${mockPurchaseCount}`)
     return mockPurchaseCount
   }
 
+  // Primary source: Count from Supabase database (real-time, updated by webhooks)
+  try {
+    const supabaseAdmin = getSupabaseAdmin()
+    
+    const { count, error } = await supabaseAdmin
+      .from('profiles')
+      .select('*', { count: 'exact', head: true })
+      .eq('plan', 'lifetime')
+
+    if (error) {
+      console.error('Error counting lifetime purchases from Supabase:', error)
+      // Fall back to Polar API if database query fails
+      return await getLifetimePurchasesCountFromPolar()
+    }
+
+    const dbCount = count || 0
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`[Purchase Count] Database count: ${dbCount}`)
+    }
+
+    return dbCount
+  } catch (error) {
+    console.error('Error accessing Supabase for purchase count:', error)
+    // Fall back to Polar API if Supabase is not configured
+    return await getLifetimePurchasesCountFromPolar()
+  }
+}
+
+/**
+ * Fallback: Fetch the count of successful lifetime purchases from Polar API
+ * Used only if Supabase database is not available
+ */
+async function getLifetimePurchasesCountFromPolar(): Promise<number> {
   const apiKey = process.env.POLAR_API_KEY
   const productId = process.env.POLAR_PRODUCT_ID_LIFETIME
 
@@ -56,8 +103,6 @@ export async function getLifetimePurchasesCount(): Promise<number> {
 
   try {
     // Fetch transactions for the lifetime product
-    // Note: Adjust the API endpoint based on Polar.sh's actual API structure
-    // Common patterns: /v1/transactions, /api/v1/orders, etc.
     const response = await fetch(
       `https://api.polar.sh/v1/orders?product_id=${productId}`,
       {
@@ -67,7 +112,7 @@ export async function getLifetimePurchasesCount(): Promise<number> {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        next: { revalidate: 30 }, // Cache for 30 seconds (reduced for faster updates)
+        next: { revalidate: 30 }, // Cache for 30 seconds
       }
     )
 
@@ -80,61 +125,32 @@ export async function getLifetimePurchasesCount(): Promise<number> {
     const data = await response.json()
 
     // Handle different possible response structures
-    // Polar might return: { items: [...] } or { data: [...] } or direct array
     const transactions = data.items || data.data || data || []
 
-    // Log for debugging (only in development)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('[Polar API] Raw response structure:', {
-        hasItems: !!data.items,
-        hasData: !!data.data,
-        isArray: Array.isArray(data),
-        totalItems: transactions.length,
-      })
-    }
-
     // Filter for successful, non-refunded transactions
-    // Adjust field names based on Polar's actual API response structure
     const successfulPurchases = transactions.filter(
       (transaction: any) => {
         const status = transaction.status || transaction.payment_status || transaction.state
         const isRefunded = transaction.refunded || transaction.refunded_at || false
         const transactionProductId = transaction.product_id || transaction.product?.id
 
-        const isSuccessful = (
+        return (
           (status === 'paid' || status === 'completed' || status === 'succeeded') &&
           !isRefunded &&
           transactionProductId === productId
         )
-
-        // Log filtered transactions in development
-        if (process.env.NODE_ENV === 'development' && isSuccessful) {
-          console.log('[Polar API] Successful purchase found:', {
-            id: transaction.id,
-            status,
-            productId: transactionProductId,
-            createdAt: transaction.created_at || transaction.createdAt,
-          })
-        }
-
-        return isSuccessful
       }
     )
 
     const count = successfulPurchases.length
     
-    // Log final count
     if (process.env.NODE_ENV === 'development') {
-      console.log(`[Polar API] Total successful purchases: ${count}`)
+      console.log(`[Polar API Fallback] Total successful purchases: ${count}`)
     }
 
     return count
   } catch (error) {
     console.error('Error fetching Polar purchases:', error)
-    // In development, you might want to return a mock count for testing
-    if (process.env.NODE_ENV === 'development') {
-      console.warn('Returning 0 purchases due to API error (development mode)')
-    }
     return 0
   }
 }

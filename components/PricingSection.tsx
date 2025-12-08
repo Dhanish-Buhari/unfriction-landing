@@ -19,7 +19,9 @@ export default function PricingSection() {
   useEffect(() => {
     async function loadPricing() {
       try {
-        const response = await fetch('/api/pricing')
+        const response = await fetch('/api/pricing', {
+          cache: 'no-store', // Always fetch fresh data
+        })
         if (response.ok) {
           const state = await response.json()
           setPricingState(state)
@@ -32,33 +34,16 @@ export default function PricingSection() {
         setLoading(false)
       }
     }
+
+    // Load immediately
     loadPricing()
+
+    // Refresh every 10 seconds for live updates
+    const interval = setInterval(loadPricing, 10000)
+
+    return () => clearInterval(interval)
   }, [])
 
-  const handleDownloadClick = () => {
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_PRICING, {
-      location: 'pricing',
-      plan: 'free',
-      early_user: true,
-    })
-
-    trackEvent(ANALYTICS_EVENTS.DOWNLOAD_INITIATED, {
-      source: 'pricing',
-      early_user: true,
-    })
-
-    try {
-      const link = document.createElement('a')
-      link.href = '/Unfriction.dmg'
-      link.download = 'Unfriction.dmg'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    } catch (error) {
-      console.error('Download failed:', error)
-      window.open('/Unfriction.dmg', '_blank')
-    }
-  }
 
   const handleLifetimeClick = async () => {
     trackEvent(ANALYTICS_EVENTS.DOWNLOAD_PRICING, {
@@ -160,14 +145,14 @@ export default function PricingSection() {
 
             <div className="mb-4">
               <button
-                onClick={handleDownloadClick}
-                className="w-full px-6 py-4 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 shadow-sm hover:shadow-md"
+                disabled
+                className="w-full px-6 py-4 bg-slate-300 text-slate-500 font-semibold rounded-xl cursor-not-allowed opacity-60"
               >
-                Download Free
+                Work in Progress
               </button>
             </div>
             <p className="text-xs text-slate-500 text-center leading-relaxed">
-              Keep using Unfriction for light workflows. Upgrade if it becomes part of your brain.
+              Free version coming soon. Unlock lifetime access now to get early access.
             </p>
           </MotionDiv>
 
