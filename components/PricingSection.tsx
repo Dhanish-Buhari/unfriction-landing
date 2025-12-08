@@ -208,11 +208,11 @@ export default function PricingSection() {
                   </div>
                   <p className="text-xs text-slate-500 mb-3">One-time payment, never pay again</p>
 
-                  {/* Remaining Slots */}
+                  {/* Early Adopter Badge */}
                   {pricingState.remaining !== null && pricingState.remaining > 0 && (
                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 text-orange-700 text-sm font-semibold rounded-lg mt-3">
                       <Clock className="w-4 h-4" />
-                      <span>Only {pricingState.remaining} slots left ({pricingState.discount}% OFF)</span>
+                      <span>Early adopter price (limited time) - {pricingState.discount}% OFF</span>
                     </div>
                   )}
 
