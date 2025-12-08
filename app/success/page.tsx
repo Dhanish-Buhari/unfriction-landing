@@ -1,11 +1,14 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { CheckCircle, Download, Sparkles } from 'lucide-react'
 
-export default function SuccessPage() {
+// Ensure this page always renders dynamically (avoids prerender errors with search params)
+export const dynamic = 'force-dynamic'
+
+function SuccessContent() {
   const searchParams = useSearchParams()
   const [email, setEmail] = useState<string | null>(null)
   
@@ -102,6 +105,14 @@ export default function SuccessPage() {
         </p>
       </div>
     </div>
+  )
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-slate-500">Loading...</div>}>
+      <SuccessContent />
+    </Suspense>
   )
 }
 
