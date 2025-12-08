@@ -58,8 +58,9 @@ dist/
 build/
 
 # Large media files (use external hosting)
-public/media/export.gif
-public/media/instant_launch.gif
+*.gif
+public/media/*.gif
+public/media/**/*.gif
 
 
 
