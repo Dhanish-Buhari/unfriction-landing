@@ -231,8 +231,9 @@ export default function Demo() {
             muted
             playsInline
           >
-            <source src="/media/demo_1280.vp9.webm" type="video/webm" />
+            {/* Prefer mp4 (has audio track) */}
             <source src="/media/demo_1280_crf23.mp4" type="video/mp4" />
+            <source src="/media/demo_1280.vp9.webm" type="video/webm" />
           </video>
 
           {/* Thumbnail with play button */}
@@ -309,8 +310,9 @@ export default function Demo() {
                     preload="auto"
                     poster="/media/poster.jpg"
                   >
-                    <source src="/media/demo_1280.vp9.webm" type="video/webm" />
+                    {/* Prefer mp4 first because it includes audio */}
                     <source src="/media/demo_1280_crf23.mp4" type="video/mp4" />
+                    <source src="/media/demo_1280.vp9.webm" type="video/webm" />
                     <source src="/media/preview_low.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
