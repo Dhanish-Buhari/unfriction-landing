@@ -13,7 +13,7 @@ interface FeatureItemProps {
     icon: LucideIcon
     color: string
     bgColor: string
-    gifPath: string
+    mediaPath: string
   }
   index: number
   prefersReducedMotion: boolean
@@ -23,6 +23,7 @@ function FeatureItem({ feature, index, prefersReducedMotion }: FeatureItemProps)
   const [gifError, setGifError] = useState(false)
   const MotionDiv = prefersReducedMotion ? 'div' : motion.div
   const IconComponent = feature.icon
+  const isVideo = feature.mediaPath.toLowerCase().endsWith('.mp4')
 
   return (
     <MotionDiv
@@ -41,14 +42,26 @@ function FeatureItem({ feature, index, prefersReducedMotion }: FeatureItemProps)
       <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 mb-4 shadow-sm hover:shadow-lg transition-all duration-300 group">
         {!gifError ? (
           <>
-            <Image
-              src={feature.gifPath}
-              alt={`${feature.title} demo`}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              unoptimized
-              onError={() => setGifError(true)}
-            />
+            {isVideo ? (
+              <video
+                src={feature.mediaPath}
+                className="absolute inset-0 w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                onError={() => setGifError(true)}
+              />
+            ) : (
+              <Image
+                src={feature.mediaPath}
+                alt={`${feature.title} demo`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                unoptimized
+                onError={() => setGifError(true)}
+              />
+            )}
             {/* Subtle overlay on hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/0 to-black/0 group-hover:from-black/5 transition-all duration-300 pointer-events-none" />
           </>
@@ -58,9 +71,9 @@ function FeatureItem({ feature, index, prefersReducedMotion }: FeatureItemProps)
               <div className={`w-16 h-16 rounded-full ${feature.bgColor} flex items-center justify-center mx-auto mb-3 shadow-sm`}>
                 <IconComponent className={`w-8 h-8 ${feature.color}`} strokeWidth={2} />
               </div>
-              <p className="text-sm text-slate-500 font-medium">GIF placeholder</p>
+              <p className="text-sm text-slate-500 font-medium">Media placeholder</p>
               <p className="text-xs text-slate-400 mt-1 break-all px-2">
-                Add: {feature.gifPath.split('/').pop()}
+                Add: {feature.mediaPath.split('/').pop()}
               </p>
             </div>
           </div>
@@ -92,7 +105,7 @@ const visualFeatures = [
     icon: Zap,
     color: 'text-amber-500',
     bgColor: 'bg-amber-50',
-    gifPath: '/media/features/instant-launch.gif',
+    mediaPath: '/media/features/instant_final.mp4',
   },
   {
     title: 'OCR from Screenshots',
@@ -100,7 +113,7 @@ const visualFeatures = [
     icon: ImageIcon,
     color: 'text-purple-500',
     bgColor: 'bg-purple-50',
-    gifPath: '/media/features/ocr-extraction.gif',
+    mediaPath: '/media/features/OCR_final.mp4',
   },
   {
     title: 'Smart Tagging',
@@ -108,7 +121,7 @@ const visualFeatures = [
     icon: Tag,
     color: 'text-pink-500',
     bgColor: 'bg-pink-50',
-    gifPath: '/media/features/smart-tagging.gif',
+    mediaPath: '/media/features/tag_final.mp4',
   },
   {
     title: 'Export & Backup',
@@ -116,7 +129,7 @@ const visualFeatures = [
     icon: Download,
     color: 'text-blue-500',
     bgColor: 'bg-blue-50',
-    gifPath: '/media/features/export-backup.gif', // ✅ Mapped: output.gif
+    mediaPath: '/media/features/export_final.mp4',
   },
   {
     title: 'Dark Mode + Transparency',
@@ -124,7 +137,7 @@ const visualFeatures = [
     icon: Moon,
     color: 'text-indigo-500',
     bgColor: 'bg-indigo-50',
-    gifPath: '/media/features/dark-mode.gif',
+    mediaPath: '/media/features/dark_final.mp4',
   },
   {
     title: 'Full Keyboard Shortcuts',
@@ -132,7 +145,7 @@ const visualFeatures = [
     icon: Keyboard,
     color: 'text-teal-500',
     bgColor: 'bg-teal-50',
-    gifPath: '/media/features/keyboard-shortcuts.gif',
+    mediaPath: '/media/features/keyboard_final.mp4',
   },
   {
     title: 'Auto-Save',
@@ -140,7 +153,7 @@ const visualFeatures = [
     icon: Save,
     color: 'text-emerald-500',
     bgColor: 'bg-emerald-50',
-    gifPath: '/media/features/autosave.gif',
+    mediaPath: '/media/features/AutoSave_final.mp4',
   },
   {
     title: 'Lock Notes',
@@ -148,7 +161,7 @@ const visualFeatures = [
     icon: Lock,
     color: 'text-rose-500',
     bgColor: 'bg-rose-50',
-    gifPath: '/media/features/lock-notes.gif', // ✅ Mapped: Lock Feature.gif
+    mediaPath: '/media/features/lock_final.mp4',
   },
   {
     title: 'Click Outside to Close',
@@ -156,7 +169,7 @@ const visualFeatures = [
     icon: X,
     color: 'text-slate-500',
     bgColor: 'bg-slate-50',
-    gifPath: '/media/features/click-outside-close.gif',
+    mediaPath: '/media/features/clickout_final.mp4',
   },
 ]
 
