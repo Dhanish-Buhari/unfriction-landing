@@ -231,8 +231,8 @@ export default function Demo() {
             muted
             playsInline
           >
-            <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
-            <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
+            <source src="/media/demo_1280.vp9.webm" type="video/webm" />
+            <source src="/media/demo_1280_crf23.mp4" type="video/mp4" />
           </video>
 
           {/* Thumbnail with play button */}
@@ -307,9 +307,11 @@ export default function Demo() {
                     controls
                     className="w-full h-full"
                     preload="auto"
+                    poster="/media/poster.jpg"
                   >
-                    <source src="/media/Unfriction_Demo_V1_1.mov" type="video/quicktime" />
-                    <source src="/media/Unfriction_Demo_V1_1.mov" type="video/mp4" />
+                    <source src="/media/demo_1280.vp9.webm" type="video/webm" />
+                    <source src="/media/demo_1280_crf23.mp4" type="video/mp4" />
+                    <source src="/media/preview_low.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                 </div>
